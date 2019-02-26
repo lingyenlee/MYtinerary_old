@@ -1,0 +1,308 @@
+body {
+  margin: 0;
+  padding: 0;
+  padding-bottom: 70px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+/* --------header---------- */
+.HeaderWrapper {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
+}
+
+.user #modal1 {
+  max-height: 30%;
+}
+
+.logout-btn {
+  padding: 0px;
+  margin: 0px;
+}
+
+.log-status {
+  width: 150px;
+  margin: 5px 0px;
+}
+/* ----------footer----------- */
+.navbar {
+  padding: 0px;
+  height: 60px;
+}
+.FooterWrapper img {
+  width: 50px;
+  height: 50px;
+}
+
+.BackButton {
+  color: black;
+  text-align: center;
+}
+.HomeIcon img {
+  height: 80px;
+  width: 80px;
+  text-align: center;
+}
+/*---------- Landing page ----------*/
+.LogoWrapper {
+  text-align: center;
+}
+
+.LogoWrapper img {
+  width: 80%;
+  height: 5%;
+}
+
+.ArrowWrapper img {
+  width: 100px;
+  height: 100px;
+}
+
+.ArrowWrapper {
+  text-align: center;
+}
+
+.TextWrapper {
+  text-align: center;
+}
+
+.TextWrapper p {
+  font-size: 18px;
+  padding: 10px 30px;
+}
+
+.TextWrapper h4 {
+  margin-top: 30px;
+  margin-bottom: 8px;
+}
+
+/* ------All cities page -------*/
+.cities-heading {
+  text-align: center;
+  margin: 10px 20px;
+}
+
+.search-bar {
+  width: 50%;
+  background-color: white;
+  margin: 10px auto;
+  height: 45px;
+  line-height: 45px;
+}
+
+nav .input-field label.active i.search {
+  color: #222;
+}
+
+i.material-icons.search {
+  height: 40px;
+  line-height: 40px;
+}
+
+.cityList {
+  text-align: center;
+}
+
+.city {
+  height: 45px;
+  margin: 10px 50px;
+  background-color: lightgray;
+}
+.city h5 {
+  line-height: 45px;
+}
+
+/* -----------itinerary ----------- */
+.itinerary-container-wrapper {
+  text-align: center;
+}
+
+.itinerary-container-wrapper h5 {
+  margin: 0;
+}
+
+.itinerary-header {
+  text-align: center;
+}
+
+.itinerary {
+  text-align: center;
+  padding: 10px 10px;
+  margin: 10px;
+  display: flex;
+  border: 1px solid black;
+  /* flex-direction: column; */
+}
+
+.profile-figure img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.itinerary figcaption {
+  font-size: 10px;
+}
+
+.profile-figure {
+  text-align: center;
+  height: 60px;
+  width: 100px;
+}
+
+.itinerary-wrapper {
+  display: flex;
+}
+
+.itinerary-container {
+  padding: 10px;
+  margin: 10px 10px;
+  border: 1px solid black;
+}
+
+.itinerary-text-wrapper {
+  width: 55%;
+}
+.itinerary-text-outer h5 {
+  margin: 0px;
+  margin-left: 8px;
+}
+
+.itinerary-text-inner button {
+  background-color: white;
+  color: black;
+  text-align: left;
+  width: 100px;
+}
+
+.itinerary-text-inner {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.itinerary-text-inner p {
+  margin: 0px 10px;
+  padding: 0px 0px;
+}
+
+/* ----------activity carousel --------- */
+.Slider {
+  display: flex;
+  flex-direction: row;
+}
+
+.slick-list {
+  height: 140px;
+}
+
+.slick-slider {
+  width: 80%;
+  margin: auto;
+}
+
+button.slick-prev,
+button.slick-next {
+  background: black;
+}
+
+.activity-images img {
+  width: 200px;
+  height: 100px;
+}
+
+.activity-images figcaption {
+  text-align: center;
+}
+
+.view-toggle-btn {
+  text-align: center;
+  background-color: lightgrey;
+}
+
+.view-toggle-btn button:focus {
+  background-color: lightgray;
+}
+
+/* -------------COMMENT PAGE----------------- */
+
+.commentBox label {
+  width: 100%;
+}
+
+.post-comment-btn {
+  text-align: right;
+  margin: 5px 0px;
+}
+
+.post-comment-btn button {
+  background-color: lightgreen;
+}
+
+.post-comment-btn button:focus {
+  background-color: aquamarine;
+}
+
+/* --------------Account create form --------------- */
+
+.SignUpPageHeader {
+  text-align: center;
+}
+
+.account-container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 20px;
+}
+
+.errorMsg {
+  text-align: center;
+  color: red;
+}
+
+.signUp-input-label {
+  font-size: 16px;
+}
+
+/* -----------------LOGIN PAGE ----------------------------- */
+
+.loginPageHead {
+  text-align: center;
+}
+
+.login-register-btn-container {
+  display: flex;
+  justify-content: space-around;
+  margin: 10px 0px;
+}
+
+.login-text {
+  margin: 10px 20px;
+}
+
+.google-login-btn {
+  text-align: center;
+  margin: 20px 0px;
+}
+
+/* -------------Favourite page --------------- */
+
+.fav-container {
+  text-align: center;
+}
+
+/* ----------Profile page ------------------ */
+
+.profile-container {
+  text-align: center;
+}
