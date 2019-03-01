@@ -34,19 +34,12 @@ router.put("/addFav", (req, res) => {
 //------------- get user favourite itineraries ----------------
 
 router.post("/favourites", (req, res) => {
-  // res.setHeader("Content-Type”, “image/png");
-
-  // console.log("backend get fav route: ", req.body.fav);
   Itinerary.find({ _id: { $in: req.body.fav } }).then(result => {
-    // console.log(result);
-    // console.log(myHeaders.has("Content-Type")); // true
-
     res.json(result);
   });
 });
 // ----------- del favourite itineraries -------------------------
 router.put("/delFav", (req, res) => {
-  console.log("backend del fav route: ", req.body.favourite);
   User.find({ email: req.body.email }).exec();
   User.updateOne(
     {
@@ -58,6 +51,13 @@ router.put("/delFav", (req, res) => {
       result,
     });
   });
+});
+
+router.get("/profile", (req, res) => {
+  console.log("backend user-routes ", req.body.id);
+  User.find({ id: req.body.id })
+    .exec()
+    .then(result => res.send(result));
 });
 
 module.exports = router;

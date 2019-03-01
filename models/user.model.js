@@ -14,8 +14,7 @@ const UserSchema = new Schema({
   selectedCountry: { type: String },
   favItinerary: Array,
   googleId: { type: String },
-  
-  // userImage: { type: String }
+  profileImage: { type: String },
 });
 
 module.exports = mongoose.model("User", UserSchema);

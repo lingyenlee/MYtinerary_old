@@ -21,11 +21,11 @@ const User = require("../models/user.model");
 
 passport.use(
   "google-plus-token",
-new GooglePlusTokenStrategy(
+  new GooglePlusTokenStrategy(
     {
       //----options for google strategy----
       clientID: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET
+      clientSecret: process.env.CLIENT_SECRET,
       // passReqToCallback: true
     },
     async (accessToken, refreshToken, profile, done) => {
@@ -42,7 +42,8 @@ new GooglePlusTokenStrategy(
             googleId: profile.id,
             lastname: profile.name.familyName,
             firstname: profile.name.givenName,
-            email: profile.emails[0].value
+            email: profile.emails[0].value,
+            profileImage: profile.photos[0].value,
           })
             .save()
             .then(newUser => {

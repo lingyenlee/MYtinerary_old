@@ -11,7 +11,7 @@ const ItinerarySchema = new Schema({
   duration: Number,
   cost: String,
   hashtags: [String],
-  city: String
+  city: String,
 });
 
 module.exports = mongoose.model("Itinerary", ItinerarySchema);

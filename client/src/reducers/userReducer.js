@@ -10,8 +10,7 @@ import {
 
 const initialState = {
   loggedIn: false,
-  googleuser: {},
-  otheruser: {},
+  user: {},
   token: "",
   errorMessage: "",
   selectedItineraries: "",
@@ -25,18 +24,19 @@ const userReducer = (state = initialState, action) => {
         register: action.payload,
       };
     case LOGIN:
+      console.log("normallogin action payload is ", action.payload);
       return {
         ...state,
         loggedIn: true,
-        otheruser: action.payload,
+        user: action.payload,
         errorMessage: "",
       };
     case GOOGLE_SIGN_UP:
-      console.log("action payload is ", action.payload.user.email);
+      console.log("googlelogin action payload is ", action.payload.user);
       return {
         ...state,
         loggedIn: true,
-        googleuser: action.payload.user,
+        user: action.payload.user,
         token: action.payload.token,
         errorMessage: "",
       };
@@ -48,7 +48,7 @@ const userReducer = (state = initialState, action) => {
     case ADD_FAV_ITINERARY:
       return {
         ...state,
-        googleuser: {
+        user: {
           email: action.email,
           favItinerary: [action.favourite, ...state.user.favItinerary],
         },

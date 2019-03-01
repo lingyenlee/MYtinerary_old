@@ -26,7 +26,7 @@ class LoginPage extends Component {
     //send access Token
     await this.props.oauthGoogle(res.accessToken);
     if (!this.props.errorMessage) {
-      this.props.history.push("/profile");
+      this.props.history.push(`/profile`);
     }
   }
 
@@ -68,7 +68,7 @@ class LoginPage extends Component {
       console.log(this.state);
       this.props.login(this.state);
       if (!this.props.errorMessage) {
-        this.props.history.push("/profile");
+        this.props.history.push(`/profile`);
       }
     }
   };
@@ -146,7 +146,8 @@ LoginPage.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  // token: state.userReducer.token
+  user: state.userReducer.user,
+  token: state.userReducer.token,
 });
 
 export default connect(

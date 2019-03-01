@@ -53,7 +53,6 @@ require("dotenv").config();
 
 //----------------get user -------------------------------
 router.post("/register", (req, res, next) => {
-  console.log("In Post User");
   User.find({ email: req.body.email })
     .exec()
     .then(user => {
@@ -152,6 +151,7 @@ router.post("/login", (req, res, next) => {
             favItinerary: user[0].favItinerary,
             token: token,
             message: "Auth successful",
+            _id: user[0]._id,
           });
         }
         return res.status(401).json({

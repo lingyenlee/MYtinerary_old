@@ -58,6 +58,7 @@ router.post("/addCity", function(req, res) {
 // get itineraries by city
 router.get("/itineraries/:city", (req, res) => {
   const city = req.params.city;
+  //const city = "Barcelona";
   Itinerary.find({ city }).then(result => res.send(result));
 });
 

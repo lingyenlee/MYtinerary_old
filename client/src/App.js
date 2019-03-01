@@ -7,7 +7,7 @@ import Footer from "./components/Footer";
 import ItineraryPage from "./components/ItineraryPage";
 import RegisterForm from "./components/Users/Register";
 import LoginPage from "./components/Users/Login";
-import HomePage from "./components/Users/Profile";
+import ProfilePage from "./components/Users/ProfilePage";
 import FavouritePage from "./components/FavouritePage";
 
 class App extends Component {
@@ -19,7 +19,7 @@ class App extends Component {
           <Route path="/itineraries/:city" component={ItineraryPage} />
           <Route path="/register" component={RegisterForm} />
           <Route path="/loginPage" component={LoginPage} />
-          <Route path="/profile" component={HomePage} />
+          <Route path="/profile" component={ProfilePage} />
           <Route path="/favourites" component={FavouritePage} />
         </Switch>
       </div>

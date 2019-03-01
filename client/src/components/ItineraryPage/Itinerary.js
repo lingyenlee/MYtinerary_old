@@ -45,11 +45,20 @@ class Itinerary extends Component {
               <div className="itinerary-container" key={result._id}>
                 <div className="itinerary-wrapper">
                   <div className="profile-figure">
-                    <img
-                      className="profileImage"
-                      src={result.userimage}
-                      alt="user"
-                    />
+                    {window.location.pathname == "/favourites" ? (
+                      <img
+                        className="profileImage"
+                        src={"itineraries/" + result.userimage}
+                        alt="user"
+                      />
+                    ) : (
+                      <img
+                        className="profileImage"
+                        src={result.userimage}
+                        alt="user"
+                      />
+                    )}
+
                     <figcaption>{result.username}</figcaption>
                   </div>
                   <div className="itinerary-text-wrapper">

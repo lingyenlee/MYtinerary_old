@@ -15,7 +15,7 @@ class FavouritePage extends Component {
   }
 
   componentDidMount() {
-    let fav = { fav: this.props.googleuser.favItinerary };
+    let fav = { fav: this.props.user.favItinerary };
     this.props.getFavItinerary(fav);
     this.setState(
       {
@@ -62,7 +62,7 @@ class FavouritePage extends Component {
 }
 
 const mapStateToProps = state => ({
-  googleuser: state.userReducer.googleuser,
+  user: state.userReducer.user,
   favourites: state.userReducer.selectedItineraries,
   loggedIn: state.userReducer.loggedIn,
 });

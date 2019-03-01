@@ -1,19 +1,12 @@
 import axios from "axios";
-import { GET_USER_PROFILE } from "./types";
+import { GET_USER } from "./types";
 
-export const getUserProfile = () => dispatch => {
-  console.log(localStorage.getItem("user"));
-  axios
-    .post("/api/sendProfile", {
-      withCredentials: true,
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("user")
-      }
-    })
-    .then(response => {
-      dispatch({
-        type: GET_USER_PROFILE,
-        payload: response.data
-      });
+export const getUserProfile = id => dispatch => {
+  console.log("get user id ", id);
+  axios.get(`/user/profile`).then(response => {
+    dispatch({
+      type: GET_USER,
+      payload: response.data,
     });
+  });
 };

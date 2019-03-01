@@ -25,7 +25,7 @@ class AddFavButton extends Component {
   componentDidMount() {
     if (
       this.props.loggedIn &&
-      this.props.googleuser.favItinerary.includes(this.props.id)
+      this.props.user.favItinerary.includes(this.props.id)
     ) {
       this.setState({
         favButtonDisable: true,
@@ -40,7 +40,7 @@ class AddFavButton extends Component {
         {
           show: true,
           favItinerary: id,
-          email: this.props.googleuser.email,
+          email: this.props.user.email,
           favButtonDisable: true,
         },
         () =>
@@ -115,7 +115,7 @@ AddFavButton.propTypes = {
 
 const mapStateToProps = state => ({
   loggedIn: state.userReducer.loggedIn,
-  googleuser: state.userReducer.googleuser,
+  user: state.userReducer.user,
 });
 
 export default connect(

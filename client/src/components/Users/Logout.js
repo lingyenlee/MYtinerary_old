@@ -22,7 +22,7 @@ class Logout extends Component {
       <Fragment>
         <div className="log-status">
           <span>You are login as </span>
-          <span>{this.props.googleemail}</span>
+          <span>{this.props.email}</span>
         </div>
         <div>
           <button to="/loginPage" className="logout-btn" onClick={this.logOut}>
@@ -35,7 +35,7 @@ class Logout extends Component {
 }
 
 const mapStateToProps = state => ({
-  googleemail: state.userReducer.googleuser.email,
+  email: state.userReducer.user.email,
   // useremail: state.userReducer.otheruser.email,
   loggedIn: state.userReducer.loggedIn,
 });

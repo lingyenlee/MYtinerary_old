@@ -10,7 +10,7 @@ export const login = data => dispatch => {
     .post("/auth/login", data, { headers: headers })
     .then(response => {
       //store in session storage
-      console.log(response.data);
+      console.log("normal login response.data is ", response.data);
       sessionStorage.setItem("token", response.data.token);
 
       dispatch({
