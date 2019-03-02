@@ -34,9 +34,8 @@ const authRoutes = require("./routes/auth-routes");
 const userRoutes = require("./routes/user-routes");
 
 //----------import passport, passportSetUp-----------------
-const passportSetUp = require("./config/passport-setup");
+
 const cookieSession = require("cookie-session");
-const passport = require("passport");
 
 //-------------set up mongoose connection to mlab---------------
 const mongoose = require("mongoose");
@@ -70,7 +69,9 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-//------------initialize passport----------------
+//------------passport setup and initialize----------------
+const passportSetUp = require("./config/passport-setup");
+const passport = require("passport");
 app.use(passport.initialize());
 app.use(passport.session());
 // app.use(

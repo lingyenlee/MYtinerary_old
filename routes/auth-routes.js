@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user.model");
 const bcrypt = require("bcryptjs");
 const bodyParser = require("body-parser");
+
 require("dotenv").config();
 
 //-------------create user account, check for existing email, hashpassword and post to mlab----------------
@@ -168,12 +169,33 @@ router.post("/login", (req, res, next) => {
 });
 
 // ----------- google login with auth -------------------------------
+router.route("/google").post(
+  passport.authenticate("google-plus-token", {
+    session: false,
+  }),
+  (req, res) => {
+    // console.log("request is", req);
+    const user = req.user;
+    const token = jwt.sign(
+      {
+        email: user.email,
+        username: user.username,
+      },
+      process.env.JWT_KEY,
+      {
+        expiresIn: "1h",
+      }
+    );
+    res.status(200).json({ user: user, token: token });
+  }
+);
+
+//------------- get user favourite itineraries ----------------
 router
-  .route("/google")
+  .route("/facebook")
   .post(
-    passport.authenticate("google-plus-token", { session: false }),
+    passport.authenticate("facebookToken", { session: false }),
     (req, res) => {
-      // console.log("request is", req);
       const user = req.user;
       const token = jwt.sign(
         {
@@ -192,7 +214,5 @@ router
       res.status(200).json({ user: user, token: token });
     }
   );
-
-//------------- get user favourite itineraries ----------------
 
 module.exports = router;

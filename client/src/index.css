@@ -295,6 +295,10 @@ button.slick-next {
   margin: 20px 0px;
 }
 
+.facebook-login-btn {
+  text-align: center;
+}
+
 /* -------------Favourite page --------------- */
 
 .fav-container {

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LOGIN, GOOGLE_SIGN_UP, REGISTER, LOGOUT } from "./types";
+import { LOGIN, REGISTER, LOGOUT, AUTH_SIGN_UP, AUTH_ERROR } from "./types";
 
 export const login = data => dispatch => {
   console.log("login action", data);
@@ -23,12 +23,20 @@ export const login = data => dispatch => {
 
 // ---------------user registration -----------------------
 export const register = userData => dispatch => {
-  axios.post("/auth/register", userData).then(response =>
-    dispatch({
-      type: REGISTER,
-      payload: response.data,
-    })
-  );
+  axios
+    .post("/auth/register", userData)
+    .then(response =>
+      dispatch({
+        type: REGISTER,
+        payload: response.data,
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: AUTH_ERROR,
+        payload: "Email is already in use",
+      })
+    );
 };
 
 export const oauthGoogle = data => {
@@ -38,7 +46,21 @@ export const oauthGoogle = data => {
       access_token: data,
     });
     dispatch({
-      type: GOOGLE_SIGN_UP,
+      type: AUTH_SIGN_UP,
+      payload: response.data,
+    });
+    sessionStorage.setItem("token", response.data.token);
+  };
+};
+
+export const oauthFacebook = data => {
+  return async dispatch => {
+    //data sent is access token
+    const response = await axios.post("/auth/facebook", {
+      access_token: data,
+    });
+    dispatch({
+      type: AUTH_SIGN_UP,
       payload: response.data,
     });
     sessionStorage.setItem("token", response.data.token);

@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import Input from "./UserInput";
 import ErrorMessage from "./ErrorMessage";
 import { NavLink } from "react-router-dom";
-import { login, oauthGoogle } from "../../actions/usersActions";
+import { login, oauthGoogle, oauthFacebook } from "../../actions/usersActions";
 import { connect } from "react-redux";
 import GoogleLogin from "react-google-login";
+import FacebookLogin from "react-facebook-login";
 import PropTypes from "prop-types";
 import validateInput from "../Validation/login";
 
@@ -15,20 +16,37 @@ class LoginPage extends Component {
       email: "",
       password: "",
       isLoading: false,
+      picture: "",
       errors: {},
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.responseGoogle = this.responseGoogle.bind(this);
+    this.responseFacebook = this.responseFacebook.bind(this);
+    // this.componentClicked = this.componentClicked.bind(this);
   }
 
   async responseGoogle(res) {
+    this.setState({
+      isLoading: true,
+    });
     //send access Token
     await this.props.oauthGoogle(res.accessToken);
     if (!this.props.errorMessage) {
       this.props.history.push(`/profile`);
     }
   }
+
+  async responseFacebook(res) {
+    await this.props.oauthFacebook(res.accessToken);
+    if (!this.props.errorMessage) {
+      this.props.history.push("/profile");
+    }
+  }
+
+  // componentClicked = () => {
+  //   console.log("facebook clicked");
+  // };
 
   handleInputChange = e => {
     const { name, value } = e.target;
@@ -74,29 +92,27 @@ class LoginPage extends Component {
   };
 
   render() {
-    // const enabled =
-    //   this.state.email.length > 0 && this.state.password.length > 0;
-    const { errors, email, password, isLoading } = this.state;
-    return (
+    const showLoginPage = (
+      // const { errors, email, password, isLoggedIn } = this.state;
       <div>
         <h4 className="loginPageHead">Login</h4>
         <form onSubmit={this.handleSubmit} className="account-container">
           <Input
             type={"email"}
-            value={email}
+            value={this.state.email}
             handleChange={this.handleInputChange}
             title={"Email"}
             name={"email"}
           />
-          <ErrorMessage errorMsg={errors.email} />
+          <ErrorMessage errorMsg={this.state.errors.email} />
           <Input
             type={"password"}
-            value={password}
+            value={this.state.password}
             handleChange={this.handleInputChange}
             title={"Password"}
             name={"password"}
           />
-          <ErrorMessage errorMsg={errors.password} />
+          <ErrorMessage errorMsg={this.state.errors.password} />
           <div className="check">
             <label>
               <input type="checkbox" />
@@ -108,7 +124,7 @@ class LoginPage extends Component {
               <button
                 className="btn btn-primary"
                 type="submit"
-                disabled={isLoading}
+                disabled={this.state.isLoading}
               >
                 Login
               </button>
@@ -125,7 +141,7 @@ class LoginPage extends Component {
           Don't have a MYtinerary account yet? You should create one! It's
           totally free and only takes a minute.
         </p>
-
+        {this.props.errorMessage ? <div>{this.props.errorMessage}</div> : null}
         {/* ------------ Google LOG IN Button ------------------- */}
         {/* client id should be stored in config later */}
         <div className="google-login-btn">
@@ -136,10 +152,28 @@ class LoginPage extends Component {
             onFailure={this.responseGoogle}
           />
         </div>
+        <div className="facebook-login-btn">
+          <FacebookLogin
+            appId="340272643266868"
+            // autoLoad={true}
+            fields="name,email,picture"
+            // onClick={this.componentClicked}
+            callback={this.responseFacebook}
+          />
+        </div>
       </div>
     );
+
+    const showLogout = (
+      <div>
+        <p>You are currently login.</p>
+      </div>
+    );
+
+    return <div>{this.props.loggedIn ? showLogout : showLoginPage}</div>;
   }
 }
+
 LoginPage.propTypes = {
   oauthGoogle: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
@@ -148,9 +182,11 @@ LoginPage.propTypes = {
 const mapStateToProps = state => ({
   user: state.userReducer.user,
   token: state.userReducer.token,
+  loggedIn: state.userReducer.loggedIn,
+  errorMessage: state.userReducer.errorMessage,
 });
 
 export default connect(
   mapStateToProps,
-  { login, oauthGoogle }
+  { login, oauthGoogle, oauthFacebook }
 )(LoginPage);

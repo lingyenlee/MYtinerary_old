@@ -1,7 +1,8 @@
 import {
   REGISTER,
   LOGIN,
-  GOOGLE_SIGN_UP,
+  AUTH_SIGN_UP,
+  AUTH_ERROR,
   LOGOUT,
   ADD_FAV_ITINERARY,
   GET_FAV_ITINERARY,
@@ -31,14 +32,20 @@ const userReducer = (state = initialState, action) => {
         user: action.payload,
         errorMessage: "",
       };
-    case GOOGLE_SIGN_UP:
-      console.log("googlelogin action payload is ", action.payload.user);
+    case AUTH_SIGN_UP:
+      console.log("auth signup action payload is ", action.payload.user);
       return {
         ...state,
         loggedIn: true,
         user: action.payload.user,
         token: action.payload.token,
         errorMessage: "",
+      };
+    case AUTH_ERROR:
+      console.log(`Authreducer got an auth error action!`);
+      return {
+        ...state,
+        errorMessage: action.payload,
       };
     case LOGOUT:
       return {
