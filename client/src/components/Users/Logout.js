@@ -36,7 +36,6 @@ class Logout extends Component {
 
 const mapStateToProps = state => ({
   email: state.userReducer.user.email,
-  // useremail: state.userReducer.otheruser.email,
   loggedIn: state.userReducer.loggedIn,
 });
 

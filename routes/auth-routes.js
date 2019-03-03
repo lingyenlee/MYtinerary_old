@@ -5,55 +5,41 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user.model");
 const bcrypt = require("bcryptjs");
 const bodyParser = require("body-parser");
-
 require("dotenv").config();
 
-//-------------create user account, check for existing email, hashpassword and post to mlab----------------
-// router.post("/register", (req, res, next) => {
-//   console.log(req.body);
-//   User.find({ email: req.body.email })
-//     .exec()
-//     .then(user => {
-//       if (user.length >= 1) {
-//         return res.status(409).json({
-//           message: "Email exists",
-//         });
-//       } else {
-//         bcrypt.hash(req.body.password, 10, (err, hash) => {
-//           if (err) {
-//             return res.status(500).json({
-//               error: err,
-//             });
-//           } else {
-//             User.create({
-//               // userImage: req.file.path,
-//               username: req.body.username,
-//               firstname: req.body.firstname,
-//               lastname: req.body.lastname,
-//               email: req.body.email,
-//               password: hash,
-//               selectedCountry: req.body.selectedCountry,
-//             })
-//               .then(result => {
-//                 res.status(201).json({
-//                   message: "User created",
-//                 });
-//               })
-//               .catch(err => {
-//                 console.log(err);
-//                 res.status(500).json({
-//                   error: err,
-//                 });
-//               });
-//             JWT.sign({}, "");
-//           }
-//         });
-//       }
-//     });
-// });
+//require for file upload
+const multer = require("multer");
+
+//---------configuration for multer ----------------------
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, "./uploads");
+  },
+  filename: function(req, file, cb) {
+    cb(null, new Date().toISOString() + file.originalname);
+  },
+});
+
+const fileFilter = (req, file, cb) => {
+  //reject a file
+  if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 1024 * 1024 * 5 },
+  fileFilter: fileFilter,
+});
 
 //----------------get user -------------------------------
-router.post("/register", (req, res, next) => {
+router.post("/register", upload.single("profileImage"), (req, res, next) => {
+  console.log("profile image req body is ", req.body);
+  console.log("profile image req file path is ", req.file.path);
+
   User.find({ email: req.body.email })
     .exec()
     .then(user => {
@@ -69,6 +55,7 @@ router.post("/register", (req, res, next) => {
             });
           } else {
             const user = User({
+              profileImage: req.file.path,
               username: req.body.username,
               password: hash,
               email: req.body.email,
@@ -111,7 +98,7 @@ router.delete("/deleteUser/:userId", (req, res, next) => {
     });
 });
 
-//-----------login for exisiting users ---------------
+//-----------normal login for exisiting users ---------------
 router.post("/login", (req, res, next) => {
   User.find({ email: req.body.email })
     .exec()
@@ -168,7 +155,7 @@ router.post("/login", (req, res, next) => {
     });
 });
 
-// ----------- google login with auth -------------------------------
+// ----------- google login -------------------------------
 router.route("/google").post(
   passport.authenticate("google-plus-token", {
     session: false,
@@ -190,7 +177,7 @@ router.route("/google").post(
   }
 );
 
-//------------- get user favourite itineraries ----------------
+//------------- facebook login  ----------------
 router
   .route("/facebook")
   .post(

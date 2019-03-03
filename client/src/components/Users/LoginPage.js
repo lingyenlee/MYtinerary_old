@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import GoogleLogin from "react-google-login";
 import FacebookLogin from "react-facebook-login";
 import PropTypes from "prop-types";
-import validateInput from "../Validation/login";
+import validateInput from "../Validation/Login";
 
 class LoginPage extends Component {
   constructor(props) {
@@ -23,9 +23,9 @@ class LoginPage extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.responseGoogle = this.responseGoogle.bind(this);
     this.responseFacebook = this.responseFacebook.bind(this);
-    // this.componentClicked = this.componentClicked.bind(this);
   }
 
+  // ------------- google log in ----------------------------------
   async responseGoogle(res) {
     this.setState({
       isLoading: true,
@@ -37,35 +37,24 @@ class LoginPage extends Component {
     }
   }
 
+  // ------------- facebook log in ----------------------------------
   async responseFacebook(res) {
+    this.setState({
+      isLoading: true,
+    });
+    //send access Token
     await this.props.oauthFacebook(res.accessToken);
     if (!this.props.errorMessage) {
       this.props.history.push("/profile");
     }
   }
 
-  // componentClicked = () => {
-  //   console.log("facebook clicked");
-  // };
-
+  // ------------------- Login form data entry --------------------
   handleInputChange = e => {
     const { name, value } = e.target;
     this.setState({
       [name]: value,
     });
-
-    // const errors = this.state.errors;
-
-    // switch (name) {
-    //   case "email":
-    //     errors.email = value.length < 3 ? "min 2 characters required" : "";
-    //     break;
-    //   case "password":
-    //     errors.password = value.length < 6 ? "in 6 characters required" : "";
-    //     break;
-    //   default:
-    //     break;
-    // }
   };
 
   isValid() {
@@ -75,7 +64,7 @@ class LoginPage extends Component {
         errors,
       });
     }
-    console.log("is valid? ", isValid);
+    console.log("login is valid? ", isValid);
     return isValid;
   }
 
@@ -83,10 +72,11 @@ class LoginPage extends Component {
     e.preventDefault();
     if (this.isValid()) {
       this.setState({ isLoading: true, errors: {} });
-      console.log(this.state);
       this.props.login(this.state);
       if (!this.props.errorMessage) {
         this.props.history.push(`/profile`);
+      } else {
+        this.props.history.push("/loginPage");
       }
     }
   };
@@ -141,7 +131,8 @@ class LoginPage extends Component {
           Don't have a MYtinerary account yet? You should create one! It's
           totally free and only takes a minute.
         </p>
-        {this.props.errorMessage ? <div>{this.props.errorMessage}</div> : null}
+        {/* {this.props.errorMessage ? <div>{this.props.errorMessage}</div> : null} */}
+
         {/* ------------ Google LOG IN Button ------------------- */}
         {/* client id should be stored in config later */}
         <div className="google-login-btn">
@@ -164,13 +155,19 @@ class LoginPage extends Component {
       </div>
     );
 
-    const showLogout = (
+    const afterLoginMessage = (
       <div>
         <p>You are currently login.</p>
       </div>
     );
 
-    return <div>{this.props.loggedIn ? showLogout : showLoginPage}</div>;
+    return (
+      <div>
+        {this.props.loggedIn ? afterLoginMessage : showLoginPage}
+
+        <p />
+      </div>
+    );
   }
 }
 

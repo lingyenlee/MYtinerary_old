@@ -20,9 +20,10 @@ const initialState = {
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case REGISTER:
+      console.log("register action payload is ", action.payload);
       return {
         ...state,
-        register: action.payload,
+        errorMessage: action.payload,
       };
     case LOGIN:
       console.log("normallogin action payload is ", action.payload);
@@ -43,6 +44,7 @@ const userReducer = (state = initialState, action) => {
       };
     case AUTH_ERROR:
       console.log(`Authreducer got an auth error action!`);
+      console.log(action.payload);
       return {
         ...state,
         errorMessage: action.payload,

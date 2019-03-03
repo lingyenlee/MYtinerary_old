@@ -18,13 +18,19 @@ export const login = data => dispatch => {
         payload: response.data,
       });
     })
-    .catch(err => console.log(err));
+    .catch(err =>
+      dispatch({
+        type: AUTH_ERROR,
+        payload: "Incorrect email or password.",
+      })
+    );
 };
 
 // ---------------user registration -----------------------
-export const register = userData => dispatch => {
+export const register = formData => dispatch => {
+  console.log(formData);
   axios
-    .post("/auth/register", userData)
+    .post("/auth/register", formData)
     .then(response =>
       dispatch({
         type: REGISTER,

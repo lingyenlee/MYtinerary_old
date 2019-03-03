@@ -1,4 +1,4 @@
-import { GET_ITINERARY, GET_ALL_ITINERARIES } from "../actions/types";
+import { GET_ITINERARY } from "../actions/types";
 
 const initState = {
   itineraries: [],
