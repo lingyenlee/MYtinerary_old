@@ -1,26 +1,22 @@
 import React, { Component } from "react";
-import LoginSignUp from "./LoginSignUp";
-import Logout from "../Users/Logout";
-import SideMenu from "./SideMenu";
+import Login from "./Login";
+import Logout from "./Logout";
 import { connect } from "react-redux";
 
+import SideMenu from "./SideMenu";
+
 class Header extends Component {
-  // constructor(props) {
-  //   super(props);
-  // }
   render() {
     return (
       <div className="HeaderWrapper">
-        <LoginSignUp />
-        {this.props.loggedIn === true && <Logout />}
+        {this.props.loggedIn ? <Logout /> : <Login />}
         <SideMenu />
       </div>
     );
   }
 }
-
 const mapStateToProps = state => ({
-  loggedIn: state.userReducer.loggedIn
+  loggedIn: state.userReducer.loggedIn,
 });
 
 export default connect(mapStateToProps)(Header);

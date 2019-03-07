@@ -36,75 +36,73 @@ class Itinerary extends Component {
     }
   }
 
-  render() {
+  activityBox(ID) {
     return (
-      <Fragment>
-        <div className="itinerary-container-wrapper">
-          {this.props.itineraries.map(result => {
-            return (
-              <div className="itinerary-container" key={result._id}>
-                <div className="itinerary-wrapper">
-                  <div className="profile-figure">
-                    {window.location.pathname == "/favourites" ? (
-                      <img
-                        className="profileImage"
-                        src={"itineraries/" + result.userimage}
-                        alt="user"
-                      />
-                    ) : (
-                      <img
-                        className="profileImage"
-                        src={result.userimage}
-                        alt="user"
-                      />
-                    )}
-
-                    <figcaption>{result.username}</figcaption>
-                  </div>
-                  <div className="itinerary-text-wrapper">
-                    <div className="itinerary-text-outer">
-                      <h5>{result.title}</h5>
-                    </div>
-                    <div className="itinerary-text-inner">
-                      <p>Likes: {result.rating}</p>
-                      <p>Duration: {result.duration}</p>
-                      <p>Cost: {result.cost}</p>
-                      <p>Hashtags: {result.hashtags}</p>
-                    </div>
-                  </div>
-                  {/* ------- add fav and del fav buttons are rendered conditionally ----------- */}
-                  {this.props.loggedIn && this.props.addButton && (
-                    <AddFavButton id={result._id} />
-                  )}
-
-                  {this.props.loggedIn && this.props.delButton && (
-                    <DelFavButton id={result._id} />
-                  )}
-                </div>
-                {/* ---------START show child activity component ---------------  */}
-                <div>
-                  {this.state.showComponent === result._id && (
-                    <Activity id={result._id} />
-                  )}
-                  <div className="view-toggle-btn">
-                    <button id={result._id} onClick={this.handleToggle}>
-                      {/* Text on Button is controlled by isToggleOpen state */}
-                      {this.state.isToggleOpen ? "Close" : "View"}
-                    </button>
-                  </div>
-                </div>
-                {/* ---------END show child activity component ---------------  */}
-              </div>
-            );
-          })}
+      <div>
+        {this.state.showComponent === ID && <Activity id={ID} />}
+        <div className="view-toggle-btn">
+          <button id={ID} onClick={this.handleToggle}>
+            {/* Text on Button is controlled by isToggleOpen state */}
+            {this.state.isToggleOpen ? "Close" : "View"}
+          </button>
         </div>
-      </Fragment>
+      </div>
     );
+  }
+
+  showItinerary() {
+    return (
+      <div className="itinerary-container-wrapper">
+        {this.props.itineraries.map(result => {
+          return (
+            <div className="itinerary-container" key={result._id}>
+              <div className="itinerary-wrapper">
+                <div className="profile-figure">
+                  <img
+                    className="profileImage"
+                    src={result.userimage}
+                    alt="user"
+                  />
+
+                  <figcaption>{result.username}</figcaption>
+                </div>
+                <div className="itinerary-text-wrapper">
+                  <div className="itinerary-text-outer">
+                    <h5>{result.title}</h5>
+                  </div>
+                  <div className="itinerary-text-inner">
+                    <p>Likes: {result.rating}</p>
+                    <p>Duration: {result.duration}</p>
+                    <p>Cost: {result.cost}</p>
+                    <p>Hashtags: {result.hashtags}</p>
+                  </div>
+                </div>
+                {/* ------- add fav and del fav buttons are rendered conditionally ----------- */}
+                {this.props.loggedIn && this.props.addButton && (
+                  <AddFavButton id={result._id} />
+                )}
+
+                {this.props.loggedIn && this.props.delButton && (
+                  <DelFavButton id={result._id} />
+                )}
+              </div>
+              {/* ---------START show child activity component ---------------  */}
+              {this.activityBox(result._id)}
+              {/* ---------END show child activity component ---------------  */}
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+
+  render() {
+    return <Fragment>{this.showItinerary()}</Fragment>;
   }
 }
 
 const mapStateToProps = state => ({
-  // user: state.userReducer.user,
+  user: state.userReducer.user,
   loggedIn: state.userReducer.loggedIn,
 });
 

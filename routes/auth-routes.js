@@ -22,7 +22,11 @@ const storage = multer.diskStorage({
 
 const fileFilter = (req, file, cb) => {
   //reject a file
-  if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+  if (
+    file.mimetype === "image/jpeg" ||
+    file.mimetype === "image/png" ||
+    file.mimetype === "image/jpg"
+  ) {
     cb(null, true);
   } else {
     cb(null, false);
@@ -36,9 +40,9 @@ const upload = multer({
 });
 
 //----------------get user -------------------------------
-router.post("/register", upload.single("profileImage"), (req, res, next) => {
-  console.log("profile image req body is ", req.body);
-  console.log("profile image req file path is ", req.file.path);
+router.post("/register", upload.single("file"), (req, res, next) => {
+  console.log("profile image req body email is ", req.body.email);
+  console.log("profile image req file path is ", req.file);
 
   User.find({ email: req.body.email })
     .exec()
@@ -56,11 +60,12 @@ router.post("/register", upload.single("profileImage"), (req, res, next) => {
           } else {
             const user = User({
               profileImage: req.file.path,
-              username: req.body.username,
+              profileName: req.body.profileName,
               password: hash,
               email: req.body.email,
               firstname: req.body.firstname,
               lastname: req.body.lastname,
+              selectedCountry: req.body.selectedCountry
             });
             User.create(user)
               .then(result => {
@@ -81,28 +86,28 @@ router.post("/register", upload.single("profileImage"), (req, res, next) => {
     });
 });
 
-//---------------------  delete user by _id ----------------------
-router.delete("/deleteUser/:userId", (req, res, next) => {
-  User.remove({ _id: req.params.userId })
-    .exec()
-    .then(result => {
-      res.status(200).json({
-        message: "User deleted",
-      });
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({
-        error: err,
-      });
-    });
-});
+// //---------------------  delete user by _id ----------------------
+// router.delete("/deleteUser/:userId", (req, res, next) => {
+//   User.remove({ _id: req.params.userId })
+//     .exec()
+//     .then(result => {
+//       res.status(200).json({
+//         message: "User deleted",
+//       });
+//     })
+//     .catch(err => {
+//       console.log(err);
+//       res.status(500).json({
+//         error: err,
+//       });
+//     });
 
 //-----------normal login for exisiting users ---------------
 router.post("/login", (req, res, next) => {
   User.find({ email: req.body.email })
     .exec()
     .then(user => {
+      console.log(user[0]);
       if (user.length < 1) {
         return res.status(401).json({
           //mesage should not reveal reason for login failure
@@ -122,7 +127,7 @@ router.post("/login", (req, res, next) => {
             {
               //payload
               email: user[0].email,
-              username: user[0].username,
+              profileName: user[0].profileName,
             },
             //secret key
             process.env.JWT_KEY,
@@ -134,7 +139,8 @@ router.post("/login", (req, res, next) => {
 
           return res.status(200).json({
             email: user[0].email,
-            username: user[0].username,
+            profileImage: user[0].profileImage,
+            profileName: user[0].profileName,
             name: user[0].firstname + " " + user[0].lastname,
             favItinerary: user[0].favItinerary,
             token: token,
@@ -166,7 +172,7 @@ router.route("/google").post(
     const token = jwt.sign(
       {
         email: user.email,
-        username: user.username,
+        profileName: user.profileName,
       },
       process.env.JWT_KEY,
       {
@@ -187,7 +193,7 @@ router
       const token = jwt.sign(
         {
           email: user.email,
-          username: user.username,
+          profileName: user.profileName,
         },
         process.env.JWT_KEY,
         {

@@ -13,7 +13,6 @@ class AddFavButton extends Component {
     this.state = {
       show: false,
       favItinerary: [],
-      email: "",
       favButtonDisable: false,
     };
     this.addToFav = this.addToFav.bind(this);
@@ -40,11 +39,13 @@ class AddFavButton extends Component {
         {
           show: true,
           favItinerary: id,
-          email: this.props.user.email,
           favButtonDisable: true,
         },
         () =>
-          this.props.addFavItinerary(this.state.favItinerary, this.state.email)
+          this.props.addFavItinerary(
+            this.state.favItinerary,
+            this.props.user.email
+          )
       );
     } else {
       this.setState({
@@ -72,38 +73,20 @@ class AddFavButton extends Component {
         </Button>
         {/* --------------conditional rendering of modal message 
         if login, favourite added, if not login, ask user to login ------------ */}
-        {this.props.loggedIn ? (
-          <Modal show={this.state.show} onHide={this.handleClose}>
-            <Modal.Header closeButton>
-              <Modal.Title>MYtinerary added to your Favorites</Modal.Title>
-            </Modal.Header>
-            <Link to={`/favourites`}>
-              <Modal.Body>Go to Favorites page</Modal.Body>
-            </Link>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={this.handleClose}>
-                Close
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        ) : (
-          // goto login if user not login
-          <Modal show={this.state.show} onHide={this.handleClose}>
-            <Modal.Header closeButton>
-              <Modal.Title>
-                Please log in to add favourite itinerary!
-              </Modal.Title>
-            </Modal.Header>
-            <Link to={`/LoginPage`}>
-              <Modal.Body>Go to Login</Modal.Body>
-            </Link>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={this.handleClose}>
-                Close
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        )}
+
+        <Modal show={this.state.show} onHide={this.handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>MYtinerary added to your Favorites</Modal.Title>
+          </Modal.Header>
+          <Link to={`/favourites`}>
+            <Modal.Body>Go to Favorites page</Modal.Body>
+          </Link>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.handleClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     );
   }

@@ -16,9 +16,9 @@ class RegisterForm extends Component {
       isLoading: false,
       userExist: false,
       countries: [],
+      selectedFile: null,
       user: {
-        selectedFile: "",
-        username: "",
+        profileName: "",
         password: "",
         email: "",
         firstname: "",
@@ -68,8 +68,7 @@ class RegisterForm extends Component {
     }
     if (this.isValid()) {
       const {
-        selectedFile,
-        username,
+        profileName,
         password,
         email,
         firstname,
@@ -77,8 +76,8 @@ class RegisterForm extends Component {
         selectedCountry,
       } = this.state.user;
       let formData = new FormData();
-      formData.append("file", selectedFile);
-      formData.append("username", username);
+      formData.append("file", this.state.selectedFile);
+      formData.append("profileName", profileName);
       formData.append("password", password);
       formData.append("email", email);
       formData.append("lastname", lastname);
@@ -101,16 +100,15 @@ class RegisterForm extends Component {
 
   fileSelectedHandler = e => {
     this.setState({ selectedFile: e.target.files[0] });
-    console.log("upload file is ", e.target.files[0].name);
+    console.log(e.target.files[0]);
   };
 
   fileUploadHandler = e => {};
 
   render() {
-    const userExist = <div>{this.props.errorMessage}</div>;
 
     const {
-      username,
+      profileName,
       password,
       email,
       firstname,
@@ -122,16 +120,10 @@ class RegisterForm extends Component {
       <Fragment>
         <h4 className="SignUpPageHeader">Register</h4>
 
-        {/* <div className="account-avatar">
-        <img src={require("../../images/avatar.png")} alt="avatar" />
-        <figcaption>Add Photo</figcaption>
-      </div> */}
-
         <form className="account-container" onSubmit={this.handleSubmit}>
           <div className="profileImage">
             <p>Upload your photo</p>
             <i className="material-icons small">add_a_photo</i>
-            {/* <button onClick={this.fileUploadHandler}>Upload</button> */}
             <input
               type="file"
               name="file"
@@ -140,12 +132,12 @@ class RegisterForm extends Component {
           </div>
           <Input
             type={"text"}
-            value={username}
+            value={profileName}
             handleChange={this.handleInputChange}
             title={"Username"}
-            name={"username"}
+            name={"profileName"}
           />
-          <ErrorMessage errorMsg={this.state.errors.username} />
+          <ErrorMessage errorMsg={this.state.errors.profileName} />
           <Input
             type={"password"}
             value={password}
@@ -199,7 +191,7 @@ class RegisterForm extends Component {
             </button>
           </div>
         </form>
-        {this.state.userExist ? userExist : null}
+        {/* {this.state.userExist ?  : null} */}
       </Fragment>
     );
   }

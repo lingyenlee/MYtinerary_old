@@ -16,8 +16,8 @@ class LoginPage extends Component {
       email: "",
       password: "",
       isLoading: false,
-      picture: "",
       errors: {},
+      loginErrorMessage: ""
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -33,7 +33,7 @@ class LoginPage extends Component {
     //send access Token
     await this.props.oauthGoogle(res.accessToken);
     if (!this.props.errorMessage) {
-      this.props.history.push(`/profile`);
+      this.props.history.push(`/`);
     }
   }
 
@@ -45,7 +45,7 @@ class LoginPage extends Component {
     //send access Token
     await this.props.oauthFacebook(res.accessToken);
     if (!this.props.errorMessage) {
-      this.props.history.push("/profile");
+      this.props.history.push("/");
     }
   }
 
@@ -74,9 +74,11 @@ class LoginPage extends Component {
       this.setState({ isLoading: true, errors: {} });
       this.props.login(this.state);
       if (!this.props.errorMessage) {
-        this.props.history.push(`/profile`);
+        this.props.history.push(`/`);
       } else {
-        this.props.history.push("/loginPage");
+        this.setState({
+          loginErrorMessage: "Incorrect Password/Email. Please try again."
+        })
       }
     }
   };
@@ -131,7 +133,6 @@ class LoginPage extends Component {
           Don't have a MYtinerary account yet? You should create one! It's
           totally free and only takes a minute.
         </p>
-        {/* {this.props.errorMessage ? <div>{this.props.errorMessage}</div> : null} */}
 
         {/* ------------ Google LOG IN Button ------------------- */}
         {/* client id should be stored in config later */}

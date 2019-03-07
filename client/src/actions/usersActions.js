@@ -28,7 +28,6 @@ export const login = data => dispatch => {
 
 // ---------------user registration -----------------------
 export const register = formData => dispatch => {
-  console.log(formData);
   axios
     .post("/auth/register", formData)
     .then(response =>

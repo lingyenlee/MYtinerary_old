@@ -22,11 +22,12 @@ const bodyParser = require("body-parser");
 
 //------------uploads for files---------------------
 // app.use("itineraries/:city", express.static(process.cwd() + "/uploads"));
-app.use("/addItinerary", express.static("uploads"));
-app.use("/itineraries/:city", express.static("uploads"));
-app.use("/activities/:id", express.static("uploads"));
-app.use("/createAccount", express.static("uploads"));
-app.use("/favourites", express.static("uploads"));
+app.use("/itineraries/uploads", express.static("uploads"));
+// app.use("/favourites/uploads", express.static("uploads"));
+app.use("/profile/uploads", express.static("uploads"));
+
+app.use(express.static("uploads"));
+app.use("/uploads", express.static("uploads"));
 
 //--------------import routes---------------------
 const apiroutes = require("./routes/api-routes");

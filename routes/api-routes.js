@@ -38,7 +38,7 @@ router.get("/cities/:city", (req, res) => {
 
 //post city onto mlab
 router.post("/addCity", function(req, res) {
-  var city = new City(req.body);
+  const city = new City(req.body);
   console.log(req.body);
   city
     .save(req.body)
@@ -55,17 +55,15 @@ router.post("/addCity", function(req, res) {
 //   Itinerary.find().then(result => res.send(result));
 // });
 
-// get itineraries by city
+// -----------------get itineraries by city------------------
 router.get("/itineraries/:city", (req, res) => {
   const city = req.params.city;
-  //const city = "Barcelona";
+  //const city = "Barcelona"
   Itinerary.find({ city }).then(result => res.send(result));
 });
 
-//post itinerary
-router.post("/addItinerary", upload.single("userimage"), (req, res) => {
-  console.log("req.file.path is", req.file.path);
-
+//----------------post itinerary ------------------------
+router.post("/itineraries", upload.single("userimage"), (req, res) => {
   const itinerary = new Itinerary({
     userimage: req.file.path,
     title: req.body.title,
@@ -114,7 +112,7 @@ router.post("/postComment", verifyToken, (req, res) => {
     city: req.body.city,
     itinerary_id: req.body.itinerary_id,
     comment: req.body.comment,
-    username: req.body.username,
+    profileName: req.body.profileName,
   });
   comment.save().then(result => {
     // console.log(result);
@@ -127,81 +125,6 @@ router.get("/postComment/:id", (req, res) => {
   const itinerary_id = req.params.id;
   Comment.find({ itinerary_id: itinerary_id }).then(result => res.json(result));
 });
-
-// ------------- get user profile -------------------------------
-router.get("/favourites/:username", (req, res) => {
-  User.find({ username: req.params.username })
-    .exec()
-    .then(result => res.send(result[0]));
-});
-
-//-----------login for exisiting users ---------------
-// router.post("/login", (req, res, next) => {
-//   console.log("login backend email: ", req.body.email);
-//   User.find({ email: req.body.email })
-//     .exec()
-//     .then(user => {
-//       console.log("user[0] is", user[0].password);
-//       if (user.length < 1) {
-//         return res.status(401).json({
-//           //mesage should not reveal reason for login failure
-//           message: "user not found",
-//         });
-//       }
-//       bcrypt.compare(req.body.password, user[0].password, (err, result) => {
-//         console.log("req.body.password is ", req.body.password);
-
-//         console.log("user[0].password is ", user[0].password);
-//         console.log("result is", result);
-//         console.log("err is ", err);
-//         if (err) {
-//           console.log("err is", err);
-//           return res.status(401).json({
-//             message: "password not matched",
-//           });
-//         }
-//         if (result) {
-//           console.log("result is ", result);
-//           //create the token if password matches
-//           const token = jwt.sign(
-//             {
-//               //payload
-//               email: user[0].email,
-//               username: user[0].username,
-//             },
-//             //secret key
-//             process.env.JWT_KEY,
-//             {
-//               //time allow for token to exist
-//               expiresIn: "1 hr",
-//             }
-//           );
-//           console.log("user email:", user[0].email);
-//           console.log("username:", user[0].username);
-//           console.log("lastname:", user[0].lastname);
-//           console.log("token is ", token);
-//           return res.status(200).json({
-//             message: "Auth successful. You are login",
-//           });
-//         }
-//         if (result) {
-//           return res.status(200).json({
-//             token: token,
-//             message: "Auth successful",
-//           });
-//         }
-//         return res.status(401).json({
-//           message: "Auth final failed",
-//         });
-//       });
-//     })
-//     .catch(err => {
-//       console.log(err);
-//       res.status(500).json({
-//         error: err,
-//       });
-//     });
-// });
 
 module.exports = router;
 

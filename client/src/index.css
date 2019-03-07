@@ -25,6 +25,9 @@ code {
   max-height: 30%;
 }
 
+.logout-container {
+  display: flex;
+}
 .logout-btn {
   padding: 0px;
   margin: 0px;
@@ -32,7 +35,7 @@ code {
 
 .log-status {
   width: 150px;
-  margin: 5px 0px;
+  margin: 5px 20px;
 }
 /* ----------footer----------- */
 .navbar {
@@ -53,6 +56,14 @@ code {
   width: 80px;
   text-align: center;
 }
+
+/* --------------side menu ---------------- */
+.profile-image {
+  text-align: center;
+  margin: 50px;
+}
+
+
 /*---------- Landing page ----------*/
 .LogoWrapper {
   text-align: center;
@@ -253,6 +264,9 @@ button.slick-next {
   background-color: aquamarine;
 }
 
+.comment-errMsg {
+  color: red;
+}
 /* --------------Account create form --------------- */
 
 .SignUpPageHeader {

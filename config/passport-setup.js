@@ -31,12 +31,12 @@ passport.use(
     async (accessToken, refreshToken, profile, done) => {
       User.findOne({ email: profile.emails[0].value }).then(existingUser => {
         if (existingUser) {
-          console.log("current user is", existingUser);
+          // console.log("current user is", existingUser);
           let user = existingUser;
           done(null, user);
         } else {
           new User({
-            username: profile.displayName,
+            profileName: profile.displayName,
             googleId: profile.id,
             lastname: profile.name.familyName,
             firstname: profile.name.givenName,
@@ -71,7 +71,7 @@ passport.use(
           done(null, user);
         } else {
           new User({
-            username: profile.displayName,
+            profileName: profile.displayName,
             facebookId: profile.id,
             lastname: profile.name.familyName,
             firstname: profile.name.givenName,

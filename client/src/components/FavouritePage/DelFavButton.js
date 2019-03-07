@@ -26,10 +26,12 @@ class DelFavButton extends Component {
       {
         show: false,
         favItinerary: id,
-        email: this.props.user.email,
       },
       () =>
-        this.props.delFavItinerary(this.state.favItinerary, this.state.email)
+        this.props.delFavItinerary(
+          this.state.favItinerary,
+          this.props.user.email
+        )
     );
   }
 
