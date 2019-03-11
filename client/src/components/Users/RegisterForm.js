@@ -106,7 +106,6 @@ class RegisterForm extends Component {
   fileUploadHandler = e => {};
 
   render() {
-
     const {
       profileName,
       password,

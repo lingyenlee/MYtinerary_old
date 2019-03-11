@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import GoogleLogin from "react-google-login";
 import FacebookLogin from "react-facebook-login";
 import PropTypes from "prop-types";
-import validateInput from "../Validation/Login";
+import { validateInput } from "../Validation/Login";
 
 class LoginPage extends Component {
   constructor(props) {
@@ -73,8 +73,12 @@ class LoginPage extends Component {
     if (this.isValid()) {
       this.setState({ isLoading: true, errors: {} });
       this.props.login(this.state.email, this.state.password);
-      if (this.props.loggedIn) {
+      if (!this.props.errorMessage) {
         this.props.history.push(`/`);
+        this.setState({
+          email: "",
+          password: "",
+        });
       } else {
         this.setState({
           showError: !this.state.showError,
@@ -123,7 +127,7 @@ class LoginPage extends Component {
               <button
                 className="btn btn-primary"
                 type="submit"
-                disabled={this.state.isLoading}
+                disabled={!this.state.isLoading}
               >
                 Login
               </button>
