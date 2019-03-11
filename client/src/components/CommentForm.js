@@ -7,7 +7,7 @@ class CommentForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      profileName: "",
+      loginUser: "",
       comment: "",
       itinerary_id: "",
       errorMessage: "",
@@ -27,7 +27,7 @@ class CommentForm extends Component {
 
   handleChange(e) {
     this.setState({
-      profileName: this.props.user.profileName,
+      loginUser: this.props.user.profileName,
       comment: e.target.value,
       itinerary_id: this.props.itinerary_id,
     });
@@ -35,9 +35,13 @@ class CommentForm extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const { comment, profileName, itinerary_id } = this.state;
+
+    const { comment, loginUser, itinerary_id } = this.state;
     this.props.fetchComment(this.props.itinerary_id);
-    this.props.postComment(comment, profileName, itinerary_id);
+    this.props.postComment(comment, loginUser, itinerary_id);
+    this.setState({
+      comment: "",
+    });
   }
 
   render() {

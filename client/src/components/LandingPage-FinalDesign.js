@@ -1,7 +1,5 @@
 import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { getUserProfile } from "../actions/profileActions";
 
 class LandingPage extends Component {
   render() {
@@ -41,11 +39,4 @@ class LandingPage extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  user: state.userReducer.user,
-});
-
-export default connect(
-  mapStateToProps,
-  { getUserProfile }
-)(LandingPage);
+export default LandingPage;

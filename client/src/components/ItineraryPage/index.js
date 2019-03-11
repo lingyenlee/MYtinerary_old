@@ -26,12 +26,15 @@ class ItineraryPage extends Component {
       <Fragment>
         <div className="itinerary-container-wrapper">
           <h5>Itineraries available</h5>
+          {/*  ------show this message if not login ----------- */}
           {!this.props.loggedIn && (
             <p>
               Please login <NavLink to="/loginPage">here</NavLink> to add your
               favourite itineraries.
             </p>
           )}
+          {/* -----itineraries passed in as props----------- */}
+          {/* ------ addbutton passed in as props ----------*/}
           <Itinerary
             itineraries={this.props.itineraries}
             addButton={this.state.view}
@@ -41,7 +44,7 @@ class ItineraryPage extends Component {
     );
   }
 
-  //------------show no itinerary message if they don't exist-------------
+  //------------show this message if itineraries not found -------------
   noItinerary() {
     return (
       <div className="itinerary-container-wrapper">
@@ -54,9 +57,9 @@ class ItineraryPage extends Component {
   }
 
   render() {
-    //Show itineraries if they exist
     return (
       <div>
+        {/* ------check if itineraries exist --------------- */}
         {this.props.itineraries.length === 0
           ? this.noItinerary()
           : this.showItinerary()}

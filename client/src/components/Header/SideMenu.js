@@ -4,6 +4,7 @@ import "materialize-css/dist/css/materialize.min.css";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { getUserProfile } from "../../actions/profileActions";
+import PropTypes from "prop-types";
 
 class SideBar extends Component {
   constructor(props) {
@@ -13,7 +14,6 @@ class SideBar extends Component {
     };
   }
 
-  // _isMounted = false;
   componentDidMount() {
     let elems = document.querySelector(".sidenav");
     M.Sidenav.init(elems, {
@@ -51,7 +51,6 @@ class SideBar extends Component {
   }
 
   render() {
-    // console.log(this.props.user.profileImage);
     return (
       <div className="menu">
         <ul id="slide-out" className="sidenav">
@@ -84,6 +83,10 @@ class SideBar extends Component {
     );
   }
 }
+
+SideBar.propTypes = {
+  getUserProfile: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = state => ({
   loggedIn: state.userReducer.loggedIn,

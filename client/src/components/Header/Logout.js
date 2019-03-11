@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import { logOut } from "../../actions/usersActions";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import PropTypes from "prop-types";
 
 class Logout extends Component {
   constructor(props) {
@@ -38,6 +39,10 @@ class Logout extends Component {
     );
   }
 }
+
+Logout.propTypes = {
+  logOut: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = state => ({
   user: state.userReducer.user,

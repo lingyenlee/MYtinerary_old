@@ -17,7 +17,7 @@ class LoginPage extends Component {
       password: "",
       isLoading: false,
       errors: {},
-      loginErrorMessage: ""
+      showError: false,
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -72,13 +72,13 @@ class LoginPage extends Component {
     e.preventDefault();
     if (this.isValid()) {
       this.setState({ isLoading: true, errors: {} });
-      this.props.login(this.state);
-      if (!this.props.errorMessage) {
+      this.props.login(this.state.email, this.state.password);
+      if (this.props.loggedIn) {
         this.props.history.push(`/`);
       } else {
         this.setState({
-          loginErrorMessage: "Incorrect Password/Email. Please try again."
-        })
+          showError: !this.state.showError,
+        });
       }
     }
   };
@@ -105,6 +105,13 @@ class LoginPage extends Component {
             name={"password"}
           />
           <ErrorMessage errorMsg={this.state.errors.password} />
+          {this.state.showError && (
+            <div className="login-error">
+              Email/passoword not exist or incorrect. Try again and make sure
+              you are registered.
+            </div>
+          )}
+
           <div className="check">
             <label>
               <input type="checkbox" />
@@ -175,6 +182,7 @@ class LoginPage extends Component {
 LoginPage.propTypes = {
   oauthGoogle: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
+  // oauthFacebook: ProcTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

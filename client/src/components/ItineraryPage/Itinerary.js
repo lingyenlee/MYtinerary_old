@@ -20,7 +20,7 @@ class Itinerary extends Component {
     this.handleToggle = this.handleToggle.bind(this);
   }
 
-  //toggle "view" button to show activities of selected itinerary
+  //--------toggle "view" button to show activities of selected itinerary--------
   handleToggle(event) {
     event.preventDefault();
     if (!this.state.isToggleOpen) {
@@ -35,7 +35,7 @@ class Itinerary extends Component {
       });
     }
   }
-
+  // ---------- show activities when toggle is open -----------------
   activityBox(ID) {
     return (
       <div>
@@ -49,7 +49,7 @@ class Itinerary extends Component {
       </div>
     );
   }
-
+  //------------shows itineraries of each city------------------------------
   showItinerary() {
     return (
       <div className="itinerary-container-wrapper">
@@ -63,7 +63,6 @@ class Itinerary extends Component {
                     src={result.userimage}
                     alt="user"
                   />
-
                   <figcaption>{result.username}</figcaption>
                 </div>
                 <div className="itinerary-text-wrapper">
@@ -78,10 +77,12 @@ class Itinerary extends Component {
                   </div>
                 </div>
                 {/* ------- add fav and del fav buttons are rendered conditionally ----------- */}
+                {/* ----if login, buttons are visible --------- */}
+                {/* ----in itinerary page, btn is for add ---------- */}
                 {this.props.loggedIn && this.props.addButton && (
                   <AddFavButton id={result._id} />
                 )}
-
+                {/* ----in favourite page, btn is for delete ---------- */}
                 {this.props.loggedIn && this.props.delButton && (
                   <DelFavButton id={result._id} />
                 )}
@@ -100,6 +101,7 @@ class Itinerary extends Component {
     return <Fragment>{this.showItinerary()}</Fragment>;
   }
 }
+
 
 const mapStateToProps = state => ({
   user: state.userReducer.user,

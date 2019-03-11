@@ -63,7 +63,6 @@ code {
   margin: 50px;
 }
 
-
 /*---------- Landing page ----------*/
 .LogoWrapper {
   text-align: center;
@@ -207,6 +206,13 @@ i.material-icons.search {
   padding: 0px 0px;
 }
 
+/* -----------------favourite button -------------------- */
+
+.AddFavBtn.button.btn.btn-primary {
+  background-color: white;
+  box-shadow: none;
+}
+
 /* ----------activity carousel --------- */
 .Slider {
   display: flex;
@@ -323,6 +329,10 @@ button.slick-next {
   text-align: center;
 }
 
+.login-error {
+  color: red;
+  text-align: center;
+}
 /* -------------Favourite page --------------- */
 
 .fav-container {

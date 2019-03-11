@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { getFavItinerary } from "../../actions/favouriteActions";
 import { NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
 
 import Itinerary from "../ItineraryPage/Itinerary";
 
@@ -59,6 +60,10 @@ class FavouritePage extends Component {
     );
   }
 }
+
+FavouritePage.propTypes = {
+  getFavItinerary: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = state => ({
   user: state.userReducer.user,

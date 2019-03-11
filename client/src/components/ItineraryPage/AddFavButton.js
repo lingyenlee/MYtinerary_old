@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
@@ -61,33 +61,35 @@ class AddFavButton extends Component {
 
   render() {
     return (
-      <div>
-        <Button
-          variant="primary"
-          onClick={() => {
-            this.addToFav(this.props.id);
-          }}
-          disabled={this.state.favButtonDisable}
-        >
-          <i className="material-icons"> favorite </i>
-        </Button>
-        {/* --------------conditional rendering of modal message 
+      <Fragment>
+        <div>
+          <Button
+            variant="light"
+            onClick={() => {
+              this.addToFav(this.props.id);
+            }}
+            disabled={this.state.favButtonDisable}
+          >
+            <i className="material-icons"> favorite_border </i>
+          </Button>
+          {/* --------------conditional rendering of modal message 
         if login, favourite added, if not login, ask user to login ------------ */}
 
-        <Modal show={this.state.show} onHide={this.handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>MYtinerary added to your Favorites</Modal.Title>
-          </Modal.Header>
-          <Link to={`/favourites`}>
-            <Modal.Body>Go to Favorites page</Modal.Body>
-          </Link>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={this.handleClose}>
-              Close
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </div>
+          <Modal show={this.state.show} onHide={this.handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>MYtinerary added to your Favorites</Modal.Title>
+            </Modal.Header>
+            <Link to={`/favourites`}>
+              <Modal.Body>Go to Favorites page</Modal.Body>
+            </Link>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={this.handleClose}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
+      </Fragment>
     );
   }
 }

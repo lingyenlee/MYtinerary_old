@@ -65,7 +65,7 @@ router.post("/register", upload.single("file"), (req, res, next) => {
               email: req.body.email,
               firstname: req.body.firstname,
               lastname: req.body.lastname,
-              selectedCountry: req.body.selectedCountry
+              selectedCountry: req.body.selectedCountry,
             });
             User.create(user)
               .then(result => {

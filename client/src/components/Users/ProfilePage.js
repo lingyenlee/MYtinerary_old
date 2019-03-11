@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { getUserProfile } from "../../actions/profileActions";
+import PropTypes from "prop-types";
 
 class ProfilePage extends Component {
   constructor(props) {
@@ -59,6 +60,10 @@ class ProfilePage extends Component {
     );
   }
 }
+
+ProfilePage.propTypes = {
+  getUserProfile: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = state => ({
   loggedIn: state.userReducer.loggedIn,

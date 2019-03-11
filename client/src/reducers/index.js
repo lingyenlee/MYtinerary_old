@@ -4,7 +4,6 @@ import itineraryReducer from "./itineraryReducer";
 import activityReducer from "./activityReducer";
 import commentReducer from "./commentReducer";
 import userReducer from "./userReducer";
-import profileReducer from "./profileReducer";
 import favouriteReducer from "./favouriteReducer";
 
 const rootReducer = combineReducers({
@@ -13,7 +12,6 @@ const rootReducer = combineReducers({
   activityReducer,
   commentReducer,
   userReducer,
-  profileReducer,
   favouriteReducer,
 });
 
