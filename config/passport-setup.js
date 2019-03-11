@@ -25,8 +25,8 @@ passport.use(
   new GooglePlusTokenStrategy(
     {
       //----options for google strategy----
-      clientID: process.env.googleCLIENT_ID,
-      clientSecret: process.env.googleCLIENT_SECRET,
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     },
     async (accessToken, refreshToken, profile, done) => {
       User.findOne({ email: profile.emails[0].value }).then(existingUser => {
@@ -60,8 +60,8 @@ passport.use(
   new FacebookTokenStrategy(
     {
       //----options for facebook strategy---
-      clientID: process.env.facebookCLIENT_ID,
-      clientSecret: process.env.facebookCLIENT_SECRET,
+      clientID: process.env.FACEBOOK_CLIENT_ID,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
     },
     (accessToken, refreshToken, profile, done) => {
       User.findOne({ email: profile.emails[0].value }).then(existingUser => {
