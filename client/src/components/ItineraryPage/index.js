@@ -21,28 +21,20 @@ class ItineraryPage extends Component {
     this.props.getItinerary(city);
   }
 
-  render() {
-    //show no itinerary message if they don't exist
-    const NoItinerary = (
-      <div className="itinerary-container-wrapper">
-        <h5>No itineraries of selected city available!</h5>
-        <h5>
-          Please choose another <NavLink to="/cities">city.</NavLink>
-        </h5>
-      </div>
-    );
-
-    //show itineraray with add button
-    const ShowItinerary = (
+  showItinerary() {
+    return (
       <Fragment>
         <div className="itinerary-container-wrapper">
           <h5>Itineraries available</h5>
+          {/*  ------show this message if not login ----------- */}
           {!this.props.loggedIn && (
             <p>
               Please login <NavLink to="/loginPage">here</NavLink> to add your
               favourite itineraries.
             </p>
           )}
+          {/* -----itineraries passed in as props----------- */}
+          {/* ------ addbutton passed in as props ----------*/}
           <Itinerary
             itineraries={this.props.itineraries}
             addButton={this.state.view}
@@ -50,11 +42,27 @@ class ItineraryPage extends Component {
         </div>
       </Fragment>
     );
+  }
 
-    //Show itineraries if they exist
+  //------------show this message if itineraries not found -------------
+  noItinerary() {
+    return (
+      <div className="itinerary-container-wrapper">
+        <h5>No itineraries of selected city available!</h5>
+        <h5>
+          Please choose another <NavLink to="/cities">city.</NavLink>
+        </h5>
+      </div>
+    );
+  }
+
+  render() {
     return (
       <div>
-        {this.props.itineraries.length === 0 ? NoItinerary : ShowItinerary}
+        {/* ------check if itineraries exist --------------- */}
+        {this.props.itineraries.length === 0
+          ? this.noItinerary()
+          : this.showItinerary()}
       </div>
     );
   }
@@ -68,6 +76,7 @@ ItineraryPage.propTypes = {
 const mapStateToProps = state => ({
   itineraries: state.itineraryReducer.itineraries,
   loggedIn: state.userReducer.loggedIn,
+  user: state.userReducer.user,
 });
 
 export default connect(

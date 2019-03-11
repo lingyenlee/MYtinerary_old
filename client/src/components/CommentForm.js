@@ -7,9 +7,10 @@ class CommentForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
+      loginUser: "",
       comment: "",
-      itinerary_id: ""
+      itinerary_id: "",
+      errorMessage: "",
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -17,27 +18,39 @@ class CommentForm extends Component {
 
   componentDidMount() {
     this.props.fetchComment(this.props.itinerary_id);
+    if (!this.props.loggedIn) {
+      this.setState({
+        errorMessage: "Please login to post comment!",
+      });
+    }
   }
 
   handleChange(e) {
-    const getUsername = localStorage.getItem("username");
     this.setState({
-      username: getUsername,
+      loginUser: this.props.user.profileName,
       comment: e.target.value,
-      itinerary_id: this.props.itinerary_id
+      itinerary_id: this.props.itinerary_id,
     });
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    const { comment, username, itinerary_id } = this.state;
-    this.props.postComment(comment, username, itinerary_id);
+
+    const { comment, loginUser, itinerary_id } = this.state;
     this.props.fetchComment(this.props.itinerary_id);
+    this.props.postComment(comment, loginUser, itinerary_id);
+    this.setState({
+      comment: "",
+    });
   }
 
   render() {
+    console.log(this.state.errorMessage);
     return (
       <Fragment>
+        <div className="comment-errMsg">
+          {!this.props.loggedIn && <div>{this.state.errorMessage}</div>}
+        </div>
         <div className="commentBox">
           <form onClick={this.handleSubmit}>
             <label htmlFor="comment">
@@ -59,7 +72,7 @@ class CommentForm extends Component {
                 return (
                   <div key={result._id}>
                     <span>
-                      {result.username}: {result.comment}
+                      {result.profileName}: {result.comment}
                     </span>
                   </div>
                 );
@@ -74,11 +87,13 @@ class CommentForm extends Component {
 
 CommentForm.propTypes = {
   postComment: PropTypes.func.isRequired,
-  fetchComment: PropTypes.func.isRequired
+  fetchComment: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  comment: state.commentReducer.comment
+  user: state.userReducer.user,
+  loggedIn: state.userReducer.loggedIn,
+  comment: state.commentReducer.comment,
 });
 
 export default connect(

@@ -5,55 +5,45 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user.model");
 const bcrypt = require("bcryptjs");
 const bodyParser = require("body-parser");
-
 require("dotenv").config();
 
-//-------------create user account, check for existing email, hashpassword and post to mlab----------------
-// router.post("/register", (req, res, next) => {
-//   console.log(req.body);
-//   User.find({ email: req.body.email })
-//     .exec()
-//     .then(user => {
-//       if (user.length >= 1) {
-//         return res.status(409).json({
-//           message: "Email exists",
-//         });
-//       } else {
-//         bcrypt.hash(req.body.password, 10, (err, hash) => {
-//           if (err) {
-//             return res.status(500).json({
-//               error: err,
-//             });
-//           } else {
-//             User.create({
-//               // userImage: req.file.path,
-//               username: req.body.username,
-//               firstname: req.body.firstname,
-//               lastname: req.body.lastname,
-//               email: req.body.email,
-//               password: hash,
-//               selectedCountry: req.body.selectedCountry,
-//             })
-//               .then(result => {
-//                 res.status(201).json({
-//                   message: "User created",
-//                 });
-//               })
-//               .catch(err => {
-//                 console.log(err);
-//                 res.status(500).json({
-//                   error: err,
-//                 });
-//               });
-//             JWT.sign({}, "");
-//           }
-//         });
-//       }
-//     });
-// });
+//require for file upload
+const multer = require("multer");
+
+//---------configuration for multer ----------------------
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, "./uploads");
+  },
+  filename: function(req, file, cb) {
+    cb(null, new Date().toISOString() + file.originalname);
+  },
+});
+
+const fileFilter = (req, file, cb) => {
+  //reject a file
+  if (
+    file.mimetype === "image/jpeg" ||
+    file.mimetype === "image/png" ||
+    file.mimetype === "image/jpg"
+  ) {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 1024 * 1024 * 5 },
+  fileFilter: fileFilter,
+});
 
 //----------------get user -------------------------------
-router.post("/register", (req, res, next) => {
+router.post("/register", upload.single("file"), (req, res, next) => {
+  console.log("profile image req body email is ", req.body.email);
+  console.log("profile image req file path is ", req.file);
+
   User.find({ email: req.body.email })
     .exec()
     .then(user => {
@@ -69,11 +59,13 @@ router.post("/register", (req, res, next) => {
             });
           } else {
             const user = User({
-              username: req.body.username,
+              profileImage: req.file.path,
+              profileName: req.body.profileName,
               password: hash,
               email: req.body.email,
               firstname: req.body.firstname,
               lastname: req.body.lastname,
+              selectedCountry: req.body.selectedCountry,
             });
             User.create(user)
               .then(result => {
@@ -94,28 +86,28 @@ router.post("/register", (req, res, next) => {
     });
 });
 
-//---------------------  delete user by _id ----------------------
-router.delete("/deleteUser/:userId", (req, res, next) => {
-  User.remove({ _id: req.params.userId })
-    .exec()
-    .then(result => {
-      res.status(200).json({
-        message: "User deleted",
-      });
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({
-        error: err,
-      });
-    });
-});
+// //---------------------  delete user by _id ----------------------
+// router.delete("/deleteUser/:userId", (req, res, next) => {
+//   User.remove({ _id: req.params.userId })
+//     .exec()
+//     .then(result => {
+//       res.status(200).json({
+//         message: "User deleted",
+//       });
+//     })
+//     .catch(err => {
+//       console.log(err);
+//       res.status(500).json({
+//         error: err,
+//       });
+//     });
 
-//-----------login for exisiting users ---------------
+//-----------normal login for exisiting users ---------------
 router.post("/login", (req, res, next) => {
   User.find({ email: req.body.email })
     .exec()
     .then(user => {
+      console.log(user[0]);
       if (user.length < 1) {
         return res.status(401).json({
           //mesage should not reveal reason for login failure
@@ -135,7 +127,7 @@ router.post("/login", (req, res, next) => {
             {
               //payload
               email: user[0].email,
-              username: user[0].username,
+              profileName: user[0].profileName,
             },
             //secret key
             process.env.JWT_KEY,
@@ -147,7 +139,8 @@ router.post("/login", (req, res, next) => {
 
           return res.status(200).json({
             email: user[0].email,
-            username: user[0].username,
+            profileImage: user[0].profileImage,
+            profileName: user[0].profileName,
             name: user[0].firstname + " " + user[0].lastname,
             favItinerary: user[0].favItinerary,
             token: token,
@@ -168,7 +161,7 @@ router.post("/login", (req, res, next) => {
     });
 });
 
-// ----------- google login with auth -------------------------------
+// ----------- google login -------------------------------
 router.route("/google").post(
   passport.authenticate("google-plus-token", {
     session: false,
@@ -179,7 +172,7 @@ router.route("/google").post(
     const token = jwt.sign(
       {
         email: user.email,
-        username: user.username,
+        profileName: user.profileName,
       },
       process.env.JWT_KEY,
       {
@@ -190,7 +183,7 @@ router.route("/google").post(
   }
 );
 
-//------------- get user favourite itineraries ----------------
+//------------- facebook login  ----------------
 router
   .route("/facebook")
   .post(
@@ -200,7 +193,7 @@ router
       const token = jwt.sign(
         {
           email: user.email,
-          username: user.username,
+          profileName: user.profileName,
         },
         process.env.JWT_KEY,
         {

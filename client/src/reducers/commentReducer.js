@@ -2,7 +2,7 @@ import { POST_COMMENT, FETCH_COMMENT } from "../actions/types";
 
 const initState = {
   comment: [],
-  post: {}
+  post: {},
 };
 
 const commentReducer = (state = initState, action) => {
@@ -10,7 +10,7 @@ const commentReducer = (state = initState, action) => {
     case FETCH_COMMENT:
       return {
         ...state,
-        comment: action.payload
+        comment: action.payload,
       };
     case POST_COMMENT:
       return {
@@ -18,8 +18,8 @@ const commentReducer = (state = initState, action) => {
         post: {
           comment: action.comment,
           itinerary_id: action.itinerary_id,
-          username: action.username
-        }
+          profileName: action.profileName,
+        },
       };
     default:
       return state;

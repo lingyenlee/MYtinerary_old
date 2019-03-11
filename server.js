@@ -10,23 +10,33 @@ const https = require("https");
 const app = express();
 // const cors = require("cors");
 
-const certOptions = {
-  key: fs.readFileSync(path.resolve("./ssl/server.key")),
-  cert: fs.readFileSync(path.resolve("./ssl/server.crt")),
-};
+let server;
+// if we are in production we are already running in https
+if (process.env.NODE_ENV === "production") {
+  server = http.createServer(app);
+}
 
-const server = https.createServer(certOptions, app);
+// we are not in production so load up our certifications to be able to
+// run the server in https mode locally
+else {
+  const certOptions = {
+    key: fs.readFileSync(path.resolve("./ssl/server.key")),
+    cert: fs.readFileSync(path.resolve("./ssl/server.crt")),
+  };
+  server = https.createServer(certOptions, app);
+}
 
 // -------------express middleware that read form's input and stores in req.body
 const bodyParser = require("body-parser");
 
 //------------uploads for files---------------------
 // app.use("itineraries/:city", express.static(process.cwd() + "/uploads"));
-app.use("/addItinerary", express.static("uploads"));
-app.use("/itineraries/:city", express.static("uploads"));
-app.use("/activities/:id", express.static("uploads"));
-app.use("/createAccount", express.static("uploads"));
-app.use("/favourites", express.static("uploads"));
+app.use("/itineraries/uploads", express.static("uploads"));
+// app.use("/favourites/uploads", express.static("uploads"));
+app.use("/profile/uploads", express.static("uploads"));
+app.use("/register/uploads", express.static("uploads"));
+app.use(express.static("uploads"));
+app.use("/uploads", express.static("uploads"));
 
 //--------------import routes---------------------
 const apiroutes = require("./routes/api-routes");
@@ -34,8 +44,6 @@ const authRoutes = require("./routes/auth-routes");
 const userRoutes = require("./routes/user-routes");
 
 //----------import passport, passportSetUp-----------------
-
-const cookieSession = require("cookie-session");
 
 //-------------set up mongoose connection to mlab---------------
 const mongoose = require("mongoose");
@@ -45,12 +53,31 @@ mongoose.set("useCreateIndex", true);
 
 mongoose.Promise = global.Promise; //WHAT IS THIS????
 
+// serve static assets if in production
+if (process.env.NODE_ENV === "production") {
+  //set static folder in the frontend
+  app.use(express.static("client/build"));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client/", "build", "index-html"));
+  });
+}
+
+// serve static assets if in production
+// app.use(express.static(__dirname + "/public"));
+// app.get("/", function(req, res) {
+//   res.render("index");
+// });
+
 //--------connection config-----------------
 const connection = mongoose.connection;
 
+//--------- set port --------------------
+let port = process.env.PORT || 5000;
+
 connection.on("connected", function() {
-  server.listen(process.env.PORT, () => {
-    console.log(`db connected..Listening on ${process.env.PORT} for request`);
+  server.listen(port, () => {
+    console.log(`db connected..Listening on ${port} for request`);
   });
 });
 
