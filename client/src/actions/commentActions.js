@@ -1,16 +1,17 @@
 import { POST_COMMENT, FETCH_COMMENT } from "./types";
 import axios from "axios";
 
-export const postComment = (comment, username, itinerary_id) => {
+//----------route is protected in the backend -------------------------------
+export const postComment = (comment, profileName, itinerary_id) => {
   axios
     .post(
       "/api/postComment",
-      { comment, username, itinerary_id },
+      { comment, profileName, itinerary_id },
       {
         withCredentials: true,
         headers: {
-          Authorization: "Bearer " + localStorage.getItem("token")
-        }
+          Authorization: "Bearer " + sessionStorage.getItem("token"),
+        },
       }
     )
     .then(response => {
@@ -19,8 +20,8 @@ export const postComment = (comment, username, itinerary_id) => {
   return {
     type: POST_COMMENT,
     comment,
-    username,
-    itinerary_id
+    profileName,
+    itinerary_id,
   };
 };
 
@@ -28,7 +29,7 @@ export const fetchComment = id => dispatch => {
   axios.get(`/api/postComment/${id}`).then(response => {
     dispatch({
       type: FETCH_COMMENT,
-      payload: response.data
+      payload: response.data,
     });
   });
 };

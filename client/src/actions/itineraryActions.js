@@ -9,12 +9,3 @@ export const getItinerary = city => dispatch => {
     });
   });
 };
-
-export const getAllItineraries = cities => dispatch => {
-  axios.get(`/api/itineraries`, cities).then(response => {
-    dispatch({
-      type: GET_ITINERARY,
-      payload: response.data,
-    });
-  });
-};

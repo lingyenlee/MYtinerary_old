@@ -1,13 +1,14 @@
 import axios from "axios";
 import { LOGIN, REGISTER, LOGOUT, AUTH_SIGN_UP, AUTH_ERROR } from "./types";
 
-export const login = data => dispatch => {
-  console.log("login action", data);
-  let headers = {
-    "Content-Type": "application/json",
-  };
+export const login = (email, password) => dispatch => {
+  console.log("login action", {email, password});
+  // let headers = {
+  //   "Content-Type": "application/json",
+  // };
+  // , { headers: headers }
   axios
-    .post("/auth/login", data, { headers: headers })
+    .post("/auth/login", {email, password})
     .then(response => {
       //store in session storage
       console.log("normal login response.data is ", response.data);
@@ -18,13 +19,18 @@ export const login = data => dispatch => {
         payload: response.data,
       });
     })
-    .catch(err => console.log(err));
+    .catch(err =>
+      dispatch({
+        type: AUTH_ERROR,
+        payload: "Incorrect email or password.",
+      })
+    );
 };
 
 // ---------------user registration -----------------------
-export const register = userData => dispatch => {
+export const register = formData => dispatch => {
   axios
-    .post("/auth/register", userData)
+    .post("/auth/register", formData)
     .then(response =>
       dispatch({
         type: REGISTER,

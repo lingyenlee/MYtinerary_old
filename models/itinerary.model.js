@@ -6,7 +6,7 @@ const ItinerarySchema = new Schema({
   // _id: mongoose.Schema.Types.ObjectId,
   userimage: String,
   title: String,
-  username: String,
+  itineararyUser: String,
   rating: Number,
   duration: Number,
   cost: String,

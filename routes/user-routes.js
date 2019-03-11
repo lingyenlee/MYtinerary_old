@@ -3,61 +3,107 @@ const router = express.Router();
 const Itinerary = require("../models/itinerary.model");
 const User = require("../models/user.model");
 const bodyParser = require("body-parser");
+const verifyToken = require("./check-auth");
 
 //-------------- add fav itineraries to user account if not exists--------------------
 
-// router.get("/:user/addFav", (req, res) => {
-//   const email = req.params.user;
-//   User.find({ email }).then(result => res.json(result));
-// });
-
-router.put("/addFav", (req, res) => {
-  User.find({ email: req.body.email })
+router.post("/favourites", (req, res) => {
+  User.findOne({ email: req.body.email })
     .exec()
     .then(result => {
-      if (result[0].favItinerary.includes(req.body.favourite)) {
-        res.send("itinerary exists");
-      } else
-        User.updateOne(
-          {
-            email: req.body.email,
-          },
-          { $push: { favItinerary: req.body.favourite } }
-        ).then(result => {
-          res.status(200).json({
-            result,
-          });
-        });
+      let favourites = result.favItinerary;
+      return favourites;
+    })
+    .then(favourites => {
+      Itinerary.find({ _id: { $in: favourites } }).then(allfav => {
+        res.status(200).json(allfav);
+        return allfav;
+      });
+    })
+    .catch(err => {
+      res.status(500).json({
+        error: err,
+      });
     });
 });
 
-//------------- get user favourite itineraries ----------------
+//------------------add fav itineraries -----------------------
+//use email to look for user, then push added fav into the array
 
-router.post("/favourites", (req, res) => {
-  Itinerary.find({ _id: { $in: req.body.fav } }).then(result => {
-    res.json(result);
-  });
+router.post("/addFav", (req, res) => {
+  User.findOneAndUpdate(
+    { email: req.body.email },
+    { $push: { favItinerary: req.body.favourite } },
+    { upsert: true }
+  )
+    .then(result => {
+      let favourites = result.favItinerary;
+      favourites.push(req.body.favourite);
+      res.status(200).json(favourites);
+      // console.log("add fav result: ", favourites);
+      return favourites;
+    })
+    .then(favourites => {
+      Itinerary.find({ _id: { $in: favourites } }).then(allfav => {
+        res.status(200).json(allfav);
+        return allfav;
+      });
+    })
+    .catch(err => {
+      res.status(500).json({
+        error: err,
+      });
+    });
 });
+
 // ----------- del favourite itineraries -------------------------
-router.put("/delFav", (req, res) => {
-  User.find({ email: req.body.email }).exec();
-  User.updateOne(
-    {
-      email: req.body.email,
-    },
-    { $pull: { favItinerary: req.body.favourite } }
-  ).then(result => {
-    res.status(200).json({
-      result,
+router.post("/delFav", (req, res) => {
+  User.findOneAndUpdate(
+    { email: req.body.email },
+    { $pull: { favItinerary: req.body.favourite } },
+    { upsert: true }
+  )
+    .then(result => {
+      let updatedFav = result.favItinerary;
+      let delFav = req.body.favourite;
+      updatedFav = updatedFav.filter(result => result != delFav);
+      // res.status(200).json(updatedFav);
+      return updatedFav;
+    })
+    .then(favourites => {
+      Itinerary.find({ _id: { $in: favourites } }).then(allfav => {
+        res.status(200).json(allfav);
+        return allfav;
+      });
+    })
+    .catch(err => {
+      res.status(500).json({
+        error: err,
+      });
     });
-  });
 });
 
-router.get("/profile", (req, res) => {
-  console.log("backend user-routes ", req.body.id);
-  User.find({ id: req.body.id })
+router.post("/profile", (req, res) => {
+  User.findOne({ email: req.body.email })
     .exec()
-    .then(result => res.send(result));
+    .then(result => {
+      res.json(result);
+      console.log(result);
+    });
 });
 
 module.exports = router;
+
+// router.post("/profiles", checkAuth, (req, res) => {
+//   let userInfo = req.decoded;
+//   let emailOfUser = req.body.emailOfUser;
+//   Account.find({ email: emailOfUser })
+//     .then(account => res.send(account))
+//     .catch(err => {
+//       console.log(err);
+//       res.status(500).json({
+//         error: err,
+//       });
+//     });
+//   // res.send(userInfo);
+// });

@@ -5,8 +5,8 @@ import Cities from "./components/Cities";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ItineraryPage from "./components/ItineraryPage";
-import RegisterForm from "./components/Users/Register";
-import LoginPage from "./components/Users/Login";
+import RegisterForm from "./components/Users/RegisterForm";
+import LoginPage from "./components/Users/LoginPage";
 import ProfilePage from "./components/Users/ProfilePage";
 import FavouritePage from "./components/FavouritePage";
 

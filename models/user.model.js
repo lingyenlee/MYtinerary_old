@@ -8,13 +8,14 @@ const UserSchema = new Schema({
     type: String,
   },
   password: { type: String },
-  username: { type: String },
+  profileName: { type: String },
   firstname: { type: String },
   lastname: { type: String },
   selectedCountry: { type: String },
   favItinerary: Array,
   googleId: { type: String },
   profileImage: { type: String },
+  selectedItineraries: Array,
 });
 
 module.exports = mongoose.model("User", UserSchema);
