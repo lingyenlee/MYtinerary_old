@@ -5,7 +5,7 @@ import ErrorMessage from "./ErrorMessage";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { register } from "../../actions/usersActions";
-import validateInput from "../Validation/Register";
+import validateRegisterInput from "./ValidateRegister";
 
 const emailRegex = new RegExp(/^\w+[\w-\.]*\@\w+((-\w+)|(\w*))\.[a-z]{2,3}$/);
 
@@ -49,7 +49,7 @@ class RegisterForm extends Component {
 
   // ---------pass data to validation and check if all fields are filled in ---------
   isValid() {
-    const { errors, isValid } = validateInput(this.state.user);
+    const { errors, isValid } = validateRegisterInput(this.state.user);
     //----------if fields are missing, update error messages --------------------
     if (!isValid) {
       this.setState({

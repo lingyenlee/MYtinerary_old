@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 // import GoogleLogin from "react-google-login";
 import FacebookLogin from "react-facebook-login";
 import PropTypes from "prop-types";
-import validateInput from "../Validation/Login";
+import validateLoginInput from "./ValidateLogin";
 
 class LoginPage extends Component {
   constructor(props) {
@@ -58,7 +58,7 @@ class LoginPage extends Component {
   };
 
   isValid() {
-    const { errors, isValid } = validateInput(this.state);
+    const { errors, isValid } = validateLoginInput(this.state);
     if (!isValid) {
       this.setState({
         errors,
@@ -70,15 +70,16 @@ class LoginPage extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    // if (this.isValid()) {
-    this.setState({ isLoading: true, errors: {} });
-    this.props.login(this.state.email, this.state.password);
-    if (!this.props.errorMessage) {
-      this.props.history.push(`/`);
-    } else {
-      this.setState({
-        showError: !this.state.showError,
-      });
+    if (this.isValid()) {
+      this.setState({ isLoading: true, errors: {} });
+      this.props.login(this.state.email, this.state.password);
+      if (!this.props.errorMessage) {
+        this.props.history.push(`/`);
+      } else {
+        this.setState({
+          showError: !this.state.showError,
+        });
+      }
     }
   };
 
@@ -103,7 +104,7 @@ class LoginPage extends Component {
             title={"Password"}
             name={"password"}
           />
-          <ErrorMessage errorMsg={this.state.errors.password} /> */}
+          <ErrorMessage errorMsg={this.state.errors.password} />
           {this.state.showError && (
             <div className="login-error">
               Email/passoword not exist or incorrect. Try again and make sure
