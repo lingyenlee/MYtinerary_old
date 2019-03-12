@@ -9,7 +9,7 @@ const verifyToken = require("./check-auth");
 
 router.post("/favourites", (req, res) => {
   User.findOne({ email: req.body.email })
-    .exec()
+
     .then(result => {
       let favourites = result.favItinerary;
       return favourites;
@@ -85,11 +85,10 @@ router.post("/delFav", (req, res) => {
 
 router.post("/profile", (req, res) => {
   User.findOne({ email: req.body.email })
-    .exec()
-    .then(result => {
-      res.json(result);
-      console.log(result);
-    });
+  .then(result => {
+    res.json(result);
+    console.log(result);
+  });
 });
 
 module.exports = router;
