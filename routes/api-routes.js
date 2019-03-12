@@ -28,7 +28,7 @@ const upload = multer({ storage: storage });
 router.get("/cities", (req, res, next) => {
   City.find()
     .exec()
-    .then(cities => res.send(cities));
+    .then(cities => res.status(200).json(cities));
 });
 
 //get each city by city name

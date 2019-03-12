@@ -27,7 +27,16 @@ class Cities extends Component {
     this.props.getCities();
   }
 
+  // filteredCities() {
+  //   let filteredcity;
+  //   filteredcity = this.props.cities.filter(result => {
+  //     return result.city.toLowerCase().includes(this.state.search);
+  //   });
+  // }
+
   render() {
+    console.log("this props", this.props);
+    console.log("this props cities", this.props.cities);
     //filter cities according to search value
     const filteredCities = this.props.cities.filter(result => {
       return result.city.toLowerCase().includes(this.state.search);
