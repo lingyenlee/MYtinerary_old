@@ -17,6 +17,7 @@ const initialState = {
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case REGISTER:
+      console.log("register", action.payload);
       return {
         ...state,
         errorMessage: action.payload,

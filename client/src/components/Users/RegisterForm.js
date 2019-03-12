@@ -89,12 +89,13 @@ class RegisterForm extends Component {
       if (!this.props.errorMessage) {
         this.props.history.push(`/loginPage`);
         alert("Profile successfully created!");
-      } else {
-        // console.log(this.props.errorMessage);
-        this.setState({
-          userExist: true,
-        });
       }
+      // else {
+      //   // console.log(this.props.errorMessage);
+      //   this.setState({
+      //     userExist: true,
+      //   });
+      // }
     }
   }
 
