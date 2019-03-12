@@ -84,12 +84,13 @@ router.post("/delFav", (req, res) => {
 });
 
 router.post("/profile", (req, res) => {
-  User.findOne({ email: req.body.email })
-  .then(result => {
+  User.findOne({ email: req.body.email }).then(result => {
     res.json(result);
     console.log(result);
   });
 });
+
+
 
 module.exports = router;
 

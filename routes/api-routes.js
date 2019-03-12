@@ -23,6 +23,13 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 //---------cities page---------------
+router.get("/cities", (req, res, next) => {
+  City.find()
+    .then(cities => res.json(cities))
+    .catch(err => {
+      console.log(err);
+    });
+});
 
 // get cities from mlab
 router.get("/cities", (req, res, next) => {
