@@ -5,7 +5,7 @@ const City = require("../models/city.model");
 const Itinerary = require("../models/itinerary.model");
 const Activity = require("../models/activity.model");
 const Comment = require("../models/comment.model");
-const User = require("../models/user.model");
+// const User = require("../models/user.model");
 const bodyParser = require("body-parser");
 const verifyToken = require("./check-auth");
 
@@ -24,13 +24,13 @@ const upload = multer({ storage: storage });
 
 //---------cities page---------------
 // get cities from mlab
-// router.get("/cities", (req, res, next) => {
-//   City.find()
-//     .then(cities => res.json(cities))
-//     .catch(err => {
-//       console.log(err);
-//     });
-// });
+router.get("/cities", (req, res, next) => {
+  City.find()
+    .then(cities => res.json(cities))
+    .catch(err => {
+      console.log(err);
+    });
+});
 
 //get each city by city name
 router.get("/cities/:city", (req, res) => {
