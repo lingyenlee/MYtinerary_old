@@ -62,20 +62,20 @@ mongoose.set("useCreateIndex", true);
 // app.listen(port, () => console.log(`Server started on port ${port}`));
 
 // serve static assets if in production
-// if (process.env.NODE_ENV === "production") {
-  //set static folder in the frontend
-//   app.use(express.static("client/build"));
+if (process.env.NODE_ENV === "production") {
+  // set static folder in the frontend
+  app.use(express.static("client/build"));
 
-//   app.get("*", (req, res) => {
-//     res.sendFile(path.resolve(__dirname, "client/", "build", "index.html"));
-//   });
-// }
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client/", "build", "index.html"));
+  });
+}
 
 // serve static assets if in production
-app.use(express.static(__dirname + "/public"));
-app.get("/", function(req, res) {
-  res.render("index");
-});
+// app.use(express.static(__dirname + "/public"));
+// app.get("/", function(req, res) {
+//   res.render("index");
+// });
 
 //--------- set port --------------------
 const port = process.env.PORT || 5000;
