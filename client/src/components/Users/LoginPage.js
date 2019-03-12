@@ -84,7 +84,6 @@ class LoginPage extends Component {
   };
 
   render() {
-    console.log(this.props.errorMessage);
     const showLoginPage = (
       // const { errors, email, password, isLoggedIn } = this.state;
       <div>
