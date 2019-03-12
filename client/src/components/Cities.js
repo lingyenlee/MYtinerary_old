@@ -81,7 +81,6 @@ class Cities extends Component {
 
 Cities.propTypes = {
   getCities: PropTypes.func.isRequired,
-  cities: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = state => ({
