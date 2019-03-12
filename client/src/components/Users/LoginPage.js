@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 // import GoogleLogin from "react-google-login";
 import FacebookLogin from "react-facebook-login";
 import PropTypes from "prop-types";
-import validateInput from "../Validation/Login";
+// import validateInput from "../Validation/Login";
 
 class LoginPage extends Component {
   constructor(props) {
@@ -57,30 +57,31 @@ class LoginPage extends Component {
     });
   };
 
-  isValid() {
-    const { errors, isValid } = validateInput(this.state);
-    if (!isValid) {
-      this.setState({
-        errors,
-      });
-    }
-    console.log("login is valid? ", isValid);
-    return isValid;
-  }
+  // isValid() {
+  //   const { errors, isValid } = validateInput(this.state);
+  //   if (!isValid) {
+  //     this.setState({
+  //       errors,
+  //     });
+  //   }
+  //   console.log("login is valid? ", isValid);
+  //   return isValid;
+  // }
 
   handleSubmit = e => {
     e.preventDefault();
-    if (this.isValid()) {
-      this.setState({ isLoading: true, errors: {} });
-      this.props.login(this.state.email, this.state.password);
-      if (!this.props.errorMessage) {
-        this.props.history.push(`/`);
-      } else {
-        this.setState({
-          showError: !this.state.showError,
-        });
-      }
+    // if (this.isValid()) {
+    this.setState({ isLoading: true, errors: {} });
+    this.props.login(this.state.email, this.state.password);
+    if (!this.props.errorMessage) {
+      this.props.history.push(`/`);
     }
+    //  else {
+    //   this.setState({
+    //     showError: !this.state.showError,
+    //   });
+    // }
+    //}
   };
 
   render() {
@@ -96,7 +97,7 @@ class LoginPage extends Component {
             title={"Email"}
             name={"email"}
           />
-          <ErrorMessage errorMsg={this.state.errors.email} />
+          {/* <ErrorMessage errorMsg={this.state.errors.email} /> */}
           <Input
             type={"password"}
             value={this.state.password}
@@ -104,13 +105,13 @@ class LoginPage extends Component {
             title={"Password"}
             name={"password"}
           />
-          <ErrorMessage errorMsg={this.state.errors.password} />
-          {this.state.showError && (
+          {/* <ErrorMessage errorMsg={this.state.errors.password} /> */}
+          {/* {this.state.showError && (
             <div className="login-error">
               Email/passoword not exist or incorrect. Try again and make sure
               you are registered.
             </div>
-          )}
+          )} */}
 
           <div className="check">
             <label>
