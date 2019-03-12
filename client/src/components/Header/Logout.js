@@ -19,7 +19,7 @@ class Logout extends Component {
     e.preventDefault();
     this.props.logOut();
     if (!this.props.errorMessage) {
-      this.props.history.push("/loginPage");
+      this.props.history.push("/");
     }
   }
 

@@ -7,7 +7,10 @@ const express = require("express");
 const path = require("path");
 const fs = require("fs");
 const https = require("https");
+//--------initialise app ------------
 const app = express();
+//-------------initialize express----------------
+app.use(express.json());
 // const cors = require("cors");
 
 let server;
@@ -28,6 +31,9 @@ else {
 
 // -------------express middleware that read form's input and stores in req.body
 const bodyParser = require("body-parser");
+//--------------initialize body parser-----------
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //------------uploads for files---------------------
 // app.use("itineraries/:city", express.static(process.cwd() + "/uploads"));
@@ -43,15 +49,17 @@ const apiroutes = require("./routes/api-routes");
 const authRoutes = require("./routes/auth-routes");
 const userRoutes = require("./routes/user-routes");
 
-//----------import passport, passportSetUp-----------------
-
 //-------------set up mongoose connection to mlab---------------
 const mongoose = require("mongoose");
 const mongoDB = process.env.MONGODB_URI || process.env.DB_URL;
-mongoose.connect(mongoDB, { useNewUrlParser: true });
+mongoose
+  .connect(mongoDB, { useNewUrlParser: true })
+  .then(() => console.log("MongoDB connected"))
+  .catch(err => console.log(err));
+
 mongoose.set("useCreateIndex", true);
 
-mongoose.Promise = global.Promise; //WHAT IS THIS????
+// app.listen(port, () => console.log(`Server started on port ${port}`));
 
 // serve static assets if in production
 if (process.env.NODE_ENV === "production") {
@@ -69,11 +77,11 @@ if (process.env.NODE_ENV === "production") {
 //   res.render("index");
 // });
 
+//--------- set port --------------------
+const port = process.env.PORT || 5000;
+
 //--------connection config-----------------
 const connection = mongoose.connection;
-
-//--------- set port --------------------
-let port = process.env.PORT || 5000;
 
 connection.on("connected", function() {
   server.listen(port, () => {
@@ -88,13 +96,6 @@ connection.on("disconnected", function() {
 connection.on("error", function(error) {
   console.log("db connection error", error);
 });
-
-//-------------initialize express----------------
-app.use(express.json());
-
-//--------------initialize body parser-----------
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
 //------------passport setup and initialize----------------
 const passportSetUp = require("./config/passport-setup");

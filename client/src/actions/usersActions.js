@@ -60,6 +60,7 @@ export const oauthGoogle = data => {
 };
 
 export const oauthFacebook = data => {
+  console.log("facebook action", data)
   return async dispatch => {
     //data sent is access token
     const response = await axios.post("/auth/facebook", {

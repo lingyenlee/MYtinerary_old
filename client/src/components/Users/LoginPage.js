@@ -75,10 +75,6 @@ class LoginPage extends Component {
       this.props.login(this.state.email, this.state.password);
       if (!this.props.errorMessage) {
         this.props.history.push(`/`);
-        this.setState({
-          email: "",
-          password: "",
-        });
       } else {
         this.setState({
           showError: !this.state.showError,
