@@ -35,13 +35,14 @@ class Cities extends Component {
   // }
 
   render() {
-    console.log("this props", this.props);
-    console.log("this props cities", this.props.cities);
+    // console.log("this props", this.props);
+    // console.log("this props cities", this.props.cities);
+
     //filter cities according to search value
-    const filteredCities = this.props.cities.filter(result => {
-      return result.city.toLowerCase().includes(this.state.search);
-    });
-    // console.log(this.props.cities);
+    // const filteredCities = this.props.cities.filter(result => {
+    //   return result.city.toLowerCase().includes(this.state.search);
+    // });
+
     return (
       <Fragment>
         <div className="cities-heading">
@@ -71,9 +72,9 @@ class Cities extends Component {
         {/* ---------END search bar--------------- */}
 
         <div className="cityList">
-          {filteredCities.map(result => {
+          {this.props.cities.map(result => {
             return (
-              <div key={result.city} className="city">
+              <div key={result._id} className="city">
                 <NavLink to={`/itineraries/${result.city}`}>
                   <h5>
                     {result.city}, {result.country}

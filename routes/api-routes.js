@@ -33,7 +33,9 @@ router.get("/cities", (req, res, next) => {
 
 //get each city by city name
 router.get("/cities/:city", (req, res) => {
-  City.find({ city: req.params.city }).then(result => res.send(result));
+  City.find({ city: req.params.city }).then(result =>
+    res.status(200).json(result)
+  );
 });
 
 //post city onto mlab
