@@ -4,10 +4,10 @@ import ErrorMessage from "./ErrorMessage";
 import { NavLink } from "react-router-dom";
 import { login, oauthGoogle, oauthFacebook } from "../../actions/usersActions";
 import { connect } from "react-redux";
-import GoogleLogin from "react-google-login";
+// import GoogleLogin from "react-google-login";
 import FacebookLogin from "react-facebook-login";
 import PropTypes from "prop-types";
-import { validateInput } from "../Validation/Login";
+import validateInput from "../Validation/Login";
 
 class LoginPage extends Component {
   constructor(props) {
@@ -21,21 +21,21 @@ class LoginPage extends Component {
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.responseGoogle = this.responseGoogle.bind(this);
+    // this.responseGoogle = this.responseGoogle.bind(this);
     this.responseFacebook = this.responseFacebook.bind(this);
   }
 
   // ------------- google log in ----------------------------------
-  async responseGoogle(res) {
-    this.setState({
-      isLoading: true,
-    });
-    //send access Token
-    await this.props.oauthGoogle(res.accessToken);
-    if (!this.props.errorMessage) {
-      this.props.history.push(`/`);
-    }
-  }
+  // async responseGoogle(res) {
+  //   this.setState({
+  //     isLoading: true,
+  //   });
+  //   //send access Token
+  //   await this.props.oauthGoogle(res.accessToken);
+  //   if (!this.props.errorMessage) {
+  //     this.props.history.push(`/`);
+  //   }
+  // }
 
   // ------------- facebook log in ----------------------------------
   async responseFacebook(res) {
@@ -123,7 +123,7 @@ class LoginPage extends Component {
               <button
                 className="btn btn-primary"
                 type="submit"
-                disabled={!this.state.isLoading}
+                // disabled={!this.state.isLoading}
               >
                 Login
               </button>
@@ -144,12 +144,12 @@ class LoginPage extends Component {
         {/* ------------ Google LOG IN Button ------------------- */}
         {/* client id should be stored in config later */}
         <div className="google-login-btn">
-          <GoogleLogin
+          {/* <GoogleLogin
             clientId="223768016449-6rug8tn08tjbr8ukeloa8af98k5j0m84.apps.googleusercontent.com"
             buttonText="Google Login"
             onSuccess={this.responseGoogle}
             onFailure={this.responseGoogle}
-          />
+          /> */}
         </div>
         <div className="facebook-login-btn">
           <FacebookLogin
@@ -180,7 +180,7 @@ class LoginPage extends Component {
 }
 
 LoginPage.propTypes = {
-  oauthGoogle: PropTypes.func.isRequired,
+  // oauthGoogle: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
   // oauthFacebook: ProcTypes.func.isRequired,
 };
@@ -194,5 +194,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { login, oauthGoogle, oauthFacebook }
+  { login, oauthFacebook }
 )(LoginPage);
