@@ -29,7 +29,9 @@ class Cities extends Component {
   render() {
     //filter cities according to search value
     const filteredCities = this.props.cities.filter(result => {
-      return result.city.toLowerCase().includes(this.state.search);
+      return result.city
+        .toLowerCase()
+        .includes(this.state.search.toLowerCase());
     });
     return (
       <Fragment>
