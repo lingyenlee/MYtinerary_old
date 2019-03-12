@@ -17,7 +17,7 @@ class LoginPage extends Component {
       password: "",
       isLoading: false,
       errors: {},
-      showError: false,
+      showError: "",
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -77,13 +77,14 @@ class LoginPage extends Component {
         this.props.history.push(`/`);
       } else {
         this.setState({
-          showError: !this.state.showError,
+          showError: this.props.errorMessage,
         });
       }
     }
   };
 
   render() {
+    console.log(this.props.errorMessage);
     const showLoginPage = (
       // const { errors, email, password, isLoggedIn } = this.state;
       <div>
