@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import Input from "./UserInput";
-import ErrorMessage from "./ErrorMessage";
+// import ErrorMessage from "./ErrorMessage";
 import { NavLink } from "react-router-dom";
-import { login, oauthGoogle, oauthFacebook } from "../../actions/usersActions";
+import { login, oauthFacebook } from "../../actions/usersActions";
 import { connect } from "react-redux";
 // import GoogleLogin from "react-google-login";
 import FacebookLogin from "react-facebook-login";

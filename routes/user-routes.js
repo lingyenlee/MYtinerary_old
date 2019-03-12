@@ -7,6 +7,15 @@ const verifyToken = require("./check-auth");
 
 //-------------- add fav itineraries to user account if not exists--------------------
 
+router.get("/cities", (req, res, next) => {
+  City.find()
+    .then(cities => res.json(cities))
+    .catch(err => {
+      console.log(err);
+    });
+});
+
+
 router.post("/favourites", (req, res) => {
   User.findOne({ email: req.body.email })
 

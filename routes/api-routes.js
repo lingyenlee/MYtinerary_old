@@ -24,13 +24,13 @@ const upload = multer({ storage: storage });
 
 //---------cities page---------------
 // get cities from mlab
-router.get("/cities", (req, res, next) => {
-  City.find()
-    .then(cities => res.json(cities))
-    .catch(err => {
-      console.log(err);
-    });
-});
+// router.get("/cities", (req, res, next) => {
+//   City.find()
+//     .then(cities => res.json(cities))
+//     .catch(err => {
+//       console.log(err);
+//     });
+// });
 
 //get each city by city name
 router.get("/cities/:city", (req, res) => {
@@ -39,7 +39,7 @@ router.get("/cities/:city", (req, res) => {
   );
 });
 
-//post city onto mlab
+//--------------post city onto mlab
 router.post("/addCity", function(req, res) {
   const city = new City(req.body);
   console.log(req.body);
@@ -52,11 +52,6 @@ router.post("/addCity", function(req, res) {
       res.status(400).send("unable to save to database");
     });
 });
-
-// GET ALL ITINERARIES
-// router.get("/itineraries", (req, res) => {
-//   Itinerary.find().then(result => res.send(result));
-// });
 
 // -----------------get itineraries by city------------------
 router.get("/itineraries/:city", (req, res) => {

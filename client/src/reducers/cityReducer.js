@@ -11,7 +11,6 @@ const initState = {
 const cityReducer = (state = initState, action) => {
   switch (action.type) {
     case GET_CITIES:
-      console.log("city reducer", action.payload);
       return {
         ...state,
         cities: action.payload,
