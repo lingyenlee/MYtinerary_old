@@ -13,14 +13,12 @@ class Cities extends Component {
     this.state = {
       search: "",
     };
-    this.updateSearch = this.updateSearch.bind(this);
   }
 
   //the update search updates the value that was entered into the search bar
   updateSearch(event) {
     this.setState({
       search: event.target.value,
-      
     });
   }
 
@@ -37,8 +35,8 @@ class Cities extends Component {
   // }
 
   render() {
-    // console.log("this props", this.props);
-    // console.log("this props cities", this.props.cities);
+    console.log("this props", this.props);
+    console.log("this props cities", this.props.cities);
 
     // filter cities according to search value
     const filteredCities = this.props.cities.filter(result => {
@@ -62,7 +60,7 @@ class Cities extends Component {
                   type="search"
                   placeholder="Search city"
                   value={this.state.search}
-                  onChange={this.updateSearch}
+                  onChange={this.updateSearch.bind(this)}
                 />
                 <label className="label-icon">
                   <i className="material-icons search">search</i>
