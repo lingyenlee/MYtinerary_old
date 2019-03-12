@@ -26,9 +26,7 @@ const upload = multer({ storage: storage });
 
 // get cities from mlab
 router.get("/cities", (req, res, next) => {
-  City.find()
-    .exec()
-    .then(cities => res.status(200).json(cities));
+  City.find().then(cities => res.status(200).json(cities));
 });
 
 //get each city by city name
