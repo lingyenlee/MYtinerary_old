@@ -13,12 +13,14 @@ class Cities extends Component {
     this.state = {
       search: "",
     };
+    this.updateSearch = this.updateSearch.bind(this);
   }
 
   //the update search updates the value that was entered into the search bar
   updateSearch(event) {
     this.setState({
       search: event.target.value,
+      
     });
   }
 
@@ -38,10 +40,10 @@ class Cities extends Component {
     // console.log("this props", this.props);
     // console.log("this props cities", this.props.cities);
 
-    //filter cities according to search value
-    // const filteredCities = this.props.cities.filter(result => {
-    //   return result.city.toLowerCase().includes(this.state.search);
-    // });
+    // filter cities according to search value
+    const filteredCities = this.props.cities.filter(result => {
+      return result.city.toLowerCase().includes(this.state.search);
+    });
 
     return (
       <Fragment>
@@ -60,7 +62,7 @@ class Cities extends Component {
                   type="search"
                   placeholder="Search city"
                   value={this.state.search}
-                  onChange={this.updateSearch.bind(this)}
+                  onChange={this.updateSearch}
                 />
                 <label className="label-icon">
                   <i className="material-icons search">search</i>
@@ -72,7 +74,7 @@ class Cities extends Component {
         {/* ---------END search bar--------------- */}
 
         <div className="cityList">
-          {this.props.cities.map(result => {
+          {filteredCities.map(result => {
             return (
               <div key={result._id} className="city">
                 <NavLink to={`/itineraries/${result.city}`}>
