@@ -214,10 +214,15 @@ i.material-icons.search {
 
 /* -----------------favourite button -------------------- */
 
+.material-icons.favInactive,
+.material-icons.favActive {
+  color: red;
+}
+/* 
 .AddFavBtn.button.btn.btn-primary {
   background-color: white;
   box-shadow: none;
-}
+} */
 
 /* ----------activity carousel --------- */
 .Slider {

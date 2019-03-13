@@ -46,9 +46,10 @@ class DelFavButton extends Component {
   render() {
     return (
       <div>
-        <Button variant="primary" onClick={this.handleShow}>
-          <i className="material-icons"> favorite </i>
-        </Button>
+        <button onClick={this.handleShow}>
+          <i className="material-icons favActive"> favorite </i>
+          <p>Unadd Me!</p>
+        </button>
 
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Body>

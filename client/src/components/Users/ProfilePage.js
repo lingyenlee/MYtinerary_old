@@ -31,7 +31,7 @@ class ProfilePage extends Component {
             alt="profileImage"
           />
         </div>
-        <p>You are login as: {this.props.user.email}</p>
+        <p>Welcome! {this.props.user.firstname}</p>
       </div>
     );
   }
