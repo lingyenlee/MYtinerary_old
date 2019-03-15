@@ -2,13 +2,13 @@ import axios from "axios";
 import { LOGIN, REGISTER, LOGOUT, AUTH_SIGN_UP, AUTH_ERROR } from "./types";
 
 export const login = (email, password) => dispatch => {
-  console.log("login action", {email, password});
+  console.log("login action", { email, password });
   // let headers = {
   //   "Content-Type": "application/json",
   // };
   // , { headers: headers }
   axios
-    .post("/auth/login", {email, password})
+    .post("/auth/login", { email, password })
     .then(response => {
       //store in session storage
       console.log("normal login response.data is ", response.data);
@@ -45,21 +45,22 @@ export const register = formData => dispatch => {
     );
 };
 
-export const oauthGoogle = data => {
-  return async dispatch => {
-    //data sent is access token
-    const response = await axios.post("/auth/google", {
-      access_token: data,
-    });
-    dispatch({
-      type: AUTH_SIGN_UP,
-      payload: response.data,
-    });
-    sessionStorage.setItem("token", response.data.token);
-  };
-};
+// export const oauthGoogle = data => {
+//   return async dispatch => {
+//     //data sent is access token
+//     const response = await axios.post("/auth/google", {
+//       access_token: data,
+//     });
+//     dispatch({
+//       type: AUTH_SIGN_UP,
+//       payload: response.data,
+//     });
+//     sessionStorage.setItem("token", response.data.token);
+//   };
+// };
 
 export const oauthFacebook = data => {
+  console.log("facebook action", data);
   return async dispatch => {
     //data sent is access token
     const response = await axios.post("/auth/facebook", {

@@ -6,7 +6,6 @@ import { DebounceInput } from "react-debounce-input";
 import { NavLink } from "react-router-dom";
 
 //This component display links to all itineraries or individual city itineraries
-
 class Cities extends Component {
   constructor(props) {
     super(props);
@@ -30,9 +29,10 @@ class Cities extends Component {
   render() {
     //filter cities according to search value
     const filteredCities = this.props.cities.filter(result => {
-      return result.city.toLowerCase().includes(this.state.search);
+      return result.city
+        .toLowerCase()
+        .includes(this.state.search.toLowerCase());
     });
-    // console.log(this.props.cities);
     return (
       <Fragment>
         <div className="cities-heading">
@@ -81,7 +81,6 @@ class Cities extends Component {
 
 Cities.propTypes = {
   getCities: PropTypes.func.isRequired,
-  cities: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = state => ({

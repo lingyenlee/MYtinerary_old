@@ -13,7 +13,7 @@ class AddFavButton extends Component {
     this.state = {
       show: false,
       favItinerary: [],
-      favButtonDisable: false,
+      favButtonActive: true,
     };
     this.addToFav = this.addToFav.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -21,57 +21,96 @@ class AddFavButton extends Component {
 
   //when component mounts,only itineraries not added to favourites
   //have active "addFav" button
+  // componentDidMount() {
+  //   if (
+  //     this.props.loggedIn &&
+  //     this.props.user.favItinerary.includes(this.props.id)
+  //   ) {
+  //     this.setState({
+  //       favButtonActive: false,
+  //     });
+  //   } else {
+  //     this.setState({
+  //       favButtonActive: true,
+  //     });
+  //   }
+  // }
+
   componentDidMount() {
-    if (
-      this.props.loggedIn &&
-      this.props.user.favItinerary.includes(this.props.id)
-    ) {
+    if (this.props.user.favItinerary.includes(this.props.id)) {
       this.setState({
-        favButtonDisable: true,
+        favButtonActive: false,
+      });
+    } else {
+      this.setState({
+        favButtonActive: true,
       });
     }
   }
 
   // Pass itinerary_id and email to backend to save
   addToFav(id) {
-    if (this.props.loggedIn) {
-      this.setState(
-        {
-          show: true,
-          favItinerary: id,
-          favButtonDisable: true,
-        },
-        () =>
-          this.props.addFavItinerary(
-            this.state.favItinerary,
-            this.props.user.email
-          )
-      );
-    } else {
-      this.setState({
+    this.setState(
+      {
         show: true,
-        favItinerary: "",
-      });
-    }
+        favItinerary: id,
+        favButtonActive: false,
+      },
+      () =>
+        this.props.addFavItinerary(
+          this.state.favItinerary,
+          this.props.user.email
+        )
+    );
   }
+  // else {
+  //   this.setState({
+  //     show: true,
+  //     favItinerary: "",
+  //     favButtonActive: true,
+  //   });
+  // }
 
   handleClose() {
     this.setState({ show: false });
+  }
+
+  activeFavButton() {
+    return (
+      <Fragment>
+        <button
+          // variant="light"
+          onClick={() => {
+            this.addToFav(this.props.id);
+          }}
+          // disabled={!this.state.favButtonActive}
+        >
+          <i className="material-icons favActive"> favorite_border </i>
+          <p>Add Me!</p>
+        </button>
+      </Fragment>
+    );
+  }
+
+  inactiveFavButton() {
+    return (
+      <Fragment>
+        <div>
+          <i className="material-icons favInactive"> favorite </i>
+          <p>Added!</p>
+        </div>
+      </Fragment>
+    );
   }
 
   render() {
     return (
       <Fragment>
         <div>
-          <Button
-            variant="light"
-            onClick={() => {
-              this.addToFav(this.props.id);
-            }}
-            disabled={this.state.favButtonDisable}
-          >
-            <i className="material-icons"> favorite_border </i>
-          </Button>
+          {this.state.favButtonActive
+            ? this.activeFavButton()
+            : this.inactiveFavButton()}
+
           {/* --------------conditional rendering of modal message 
         if login, favourite added, if not login, ask user to login ------------ */}
 

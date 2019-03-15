@@ -5,7 +5,7 @@ const City = require("../models/city.model");
 const Itinerary = require("../models/itinerary.model");
 const Activity = require("../models/activity.model");
 const Comment = require("../models/comment.model");
-const User = require("../models/user.model");
+// const User = require("../models/user.model");
 const bodyParser = require("body-parser");
 const verifyToken = require("./check-auth");
 
@@ -23,20 +23,23 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 //---------cities page---------------
-
 // get cities from mlab
 router.get("/cities", (req, res, next) => {
   City.find()
-    .exec()
-    .then(cities => res.send(cities));
+    .then(cities => res.json(cities))
+    .catch(err => {
+      console.log(err);
+    });
 });
 
 //get each city by city name
 router.get("/cities/:city", (req, res) => {
-  City.find({ city: req.params.city }).then(result => res.send(result));
+  City.find({ city: req.params.city }).then(result =>
+    res.status(200).json(result)
+  );
 });
 
-//post city onto mlab
+//--------------post city onto mlab
 router.post("/addCity", function(req, res) {
   const city = new City(req.body);
   console.log(req.body);
@@ -49,11 +52,6 @@ router.post("/addCity", function(req, res) {
       res.status(400).send("unable to save to database");
     });
 });
-
-// GET ALL ITINERARIES
-// router.get("/itineraries", (req, res) => {
-//   Itinerary.find().then(result => res.send(result));
-// });
 
 // -----------------get itineraries by city------------------
 router.get("/itineraries/:city", (req, res) => {

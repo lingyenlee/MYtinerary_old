@@ -1,5 +1,5 @@
 const passport = require("passport");
-const GooglePlusTokenStrategy = require("passport-google-plus-token");
+// const GooglePlusTokenStrategy = require("passport-google-plus-token");
 const FacebookTokenStrategy = require("passport-facebook-token");
 require("dotenv").config();
 const User = require("../models/user.model");
@@ -20,48 +20,49 @@ const User = require("../models/user.model");
 
 //----------------------use google strategy-----------------------------
 
-passport.use(
-  "google-plus-token",
-  new GooglePlusTokenStrategy(
-    {
-      //----options for google strategy----
-      clientID: process.env.googleCLIENT_ID,
-      clientSecret: process.env.googleCLIENT_SECRET,
-    },
-    async (accessToken, refreshToken, profile, done) => {
-      User.findOne({ email: profile.emails[0].value }).then(existingUser => {
-        if (existingUser) {
-          // console.log("current user is", existingUser);
-          let user = existingUser;
-          done(null, user);
-        } else {
-          new User({
-            profileName: profile.displayName,
-            googleId: profile.id,
-            lastname: profile.name.familyName,
-            firstname: profile.name.givenName,
-            email: profile.emails[0].value,
-            profileImage: profile.photos[0].value,
-          })
-            .save()
-            .then(newUser => {
-              console.log("new user created", newUser);
-              let user = newUser;
-              done(null, user);
-            });
-        }
-      });
-    }
-  )
-);
+// passport.use(
+//   "google-plus-token",
+//   new GooglePlusTokenStrategy(
+//     {
+//       //----options for google strategy----
+//       clientID:
+//         "223768016449-6rug8tn08tjbr8ukeloa8af98k5j0m84.apps.googleusercontent.com",
+//       clientSecret: "m-swWFzEruMPm858W_oEgGl6",
+//     },
+//     async (accessToken, refreshToken, profile, done) => {
+//       User.findOne({ email: profile.emails[0].value }).then(existingUser => {
+//         if (existingUser) {
+//           // console.log("current user is", existingUser);
+//           let user = existingUser;
+//           done(null, user);
+//         } else {
+//           new User({
+//             profileName: profile.displayName,
+//             googleId: profile.id,
+//             lastname: profile.name.familyName,
+//             firstname: profile.name.givenName,
+//             email: profile.emails[0].value,
+//             profileImage: profile.photos[0].value,
+//           })
+//             .save()
+//             .then(newUser => {
+//               console.log("new user created", newUser);
+//               let user = newUser;
+//               done(null, user);
+//             });
+//         }
+//       });
+//     }
+//   )
+// );
 
 passport.use(
   "facebookToken",
   new FacebookTokenStrategy(
     {
       //----options for facebook strategy---
-      clientID: process.env.facebookCLIENT_ID,
-      clientSecret: process.env.facebookCLIENT_SECRET,
+      clientID: process.env.FACEBOOK_CLIENT_ID,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
     },
     (accessToken, refreshToken, profile, done) => {
       User.findOne({ email: profile.emails[0].value }).then(existingUser => {
@@ -80,7 +81,7 @@ passport.use(
           })
             .save()
             .then(newUser => {
-              console.log("new user created", newUser);
+              // console.log("new user created", newUser);
               let user = newUser;
               done(null, user);
             });

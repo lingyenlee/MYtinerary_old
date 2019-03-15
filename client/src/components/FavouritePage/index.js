@@ -10,6 +10,7 @@ class FavouritePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      favButtonActive: true,
       loggedIn: false,
       view: true,
     };
@@ -28,11 +29,23 @@ class FavouritePage extends Component {
   showFavourite() {
     return (
       <Fragment>
-        <h5>Here are your favourite itineraries: </h5>
-        <Itinerary
-          itineraries={this.props.favourites}
-          delButton={this.state.view}
-        />
+        {this.props.favourites.length === 0 && (
+          <h5>
+            You currently do not have any favourite itineraries. Please go to{" "}
+            <NavLink to="/cities">city itineraries </NavLink>
+            to add your favourites
+          </h5>
+        )}
+
+        {this.props.favourites.length !== 0 && (
+          <div>
+            <h5>Here are your favourite itineraries: </h5>
+            <Itinerary
+              itineraries={this.props.favourites}
+              delButton={this.state.view}
+            />
+          </div>
+        )}
       </Fragment>
     );
   }

@@ -58,11 +58,17 @@ code {
 }
 
 /* --------------side menu ---------------- */
+.profile-image img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .profile-image {
   text-align: center;
   margin: 50px;
 }
-
 /*---------- Landing page ----------*/
 .LogoWrapper {
   text-align: center;
@@ -208,10 +214,15 @@ i.material-icons.search {
 
 /* -----------------favourite button -------------------- */
 
+.material-icons.favInactive,
+.material-icons.favActive {
+  color: red;
+}
+/* 
 .AddFavBtn.button.btn.btn-primary {
   background-color: white;
   box-shadow: none;
-}
+} */
 
 /* ----------activity carousel --------- */
 .Slider {

@@ -24,13 +24,14 @@ class ProfilePage extends Component {
   renderShowProfile() {
     return (
       <div>
-        <p>This is the profile page</p>
-        <img
-          className="profileImage"
-          src={this.props.user.profileImage}
-          alt="profileImage"
-        />
-        <p>You are login as: {this.props.user.email}</p>
+        <div className="profile-image">
+          <img
+            className="profileImage"
+            src={this.props.user.profileImage}
+            alt="profileImage"
+          />
+        </div>
+        <p>Welcome! {this.props.user.firstname}</p>
       </div>
     );
   }
@@ -43,7 +44,7 @@ class ProfilePage extends Component {
         <h5>
           Please <NavLink to="/loginPage">login </NavLink>
           to see <br />
-          your your.
+          your profile.
         </h5>
       </div>
     );

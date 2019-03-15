@@ -17,6 +17,7 @@ const initialState = {
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case REGISTER:
+      console.log("register", action.payload);
       return {
         ...state,
         errorMessage: action.payload,
@@ -26,7 +27,7 @@ const userReducer = (state = initialState, action) => {
         ...state,
         loggedIn: true,
         user: action.payload,
-        errorMessage: "",
+        errorMessage: action.payload,
       };
     case AUTH_SIGN_UP:
       return {
@@ -37,7 +38,6 @@ const userReducer = (state = initialState, action) => {
         errorMessage: "",
       };
     case AUTH_ERROR:
-      console.log(action.payload);
       return {
         ...state,
         errorMessage: action.payload,

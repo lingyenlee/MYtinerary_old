@@ -7,7 +7,11 @@ const express = require("express");
 const path = require("path");
 const fs = require("fs");
 const https = require("https");
+const http = require("http");
+//--------initialise app ------------
 const app = express();
+//-------------initialize express----------------
+app.use(express.json());
 // const cors = require("cors");
 
 let server;
@@ -28,6 +32,9 @@ else {
 
 // -------------express middleware that read form's input and stores in req.body
 const bodyParser = require("body-parser");
+//--------------initialize body parser-----------
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //------------uploads for files---------------------
 // app.use("itineraries/:city", express.static(process.cwd() + "/uploads"));
@@ -43,37 +50,39 @@ const apiroutes = require("./routes/api-routes");
 const authRoutes = require("./routes/auth-routes");
 const userRoutes = require("./routes/user-routes");
 
-//----------import passport, passportSetUp-----------------
-
 //-------------set up mongoose connection to mlab---------------
 const mongoose = require("mongoose");
 const mongoDB = process.env.MONGODB_URI || process.env.DB_URL;
 mongoose.connect(mongoDB, { useNewUrlParser: true });
+// .then(() => console.log("MongoDB connected"))
+// .catch(err => console.log(err));
+
 mongoose.set("useCreateIndex", true);
 
-mongoose.Promise = global.Promise; //WHAT IS THIS????
-
 // serve static assets if in production
-if (process.env.NODE_ENV === "production") {
-  //set static folder in the frontend
-  app.use(express.static("client/build"));
+// if (process.env.NODE_ENV === 'production') {
+//   // set static folder in the frontend
+//   app.use(express.static(path.join(__dirname, "client/build")));
 
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client/", "build", "index-html"));
+//   app.get("*", (req, res) => {
+//     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+//   });
+// }
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build")); // serve the static react app
+  app.get(/^\/(?!api).*/, (req, res) => {
+    // don't serve api routes to react app
+    res.sendFile(path.join(__dirname, "./client/build/index.html"));
   });
+  console.log("Serving React App...");
 }
 
-// serve static assets if in production
-// app.use(express.static(__dirname + "/public"));
-// app.get("/", function(req, res) {
-//   res.render("index");
-// });
+//--------- set port --------------------
+const port = process.env.PORT || 5000;
 
 //--------connection config-----------------
 const connection = mongoose.connection;
-
-//--------- set port --------------------
-let port = process.env.PORT || 5000;
 
 connection.on("connected", function() {
   server.listen(port, () => {
@@ -88,13 +97,6 @@ connection.on("disconnected", function() {
 connection.on("error", function(error) {
   console.log("db connection error", error);
 });
-
-//-------------initialize express----------------
-app.use(express.json());
-
-//--------------initialize body parser-----------
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
 //------------passport setup and initialize----------------
 const passportSetUp = require("./config/passport-setup");
