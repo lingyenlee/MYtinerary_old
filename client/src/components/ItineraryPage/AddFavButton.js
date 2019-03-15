@@ -36,28 +36,40 @@ class AddFavButton extends Component {
   //   }
   // }
 
-  // Pass itinerary_id and email to backend to save
-  addToFav(id) {
-    if (this.props.loggedIn) {
-      this.setState(
-        {
-          show: true,
-          favItinerary: id,
-          favButtonActive: false,
-        },
-        () =>
-          this.props.addFavItinerary(
-            this.state.favItinerary,
-            this.props.user.email
-          )
-      );
+  componentDidMount() {
+    if (this.props.user.favItinerary.includes(this.props.id)) {
+      this.setState({
+        favButtonActive: false,
+      });
     } else {
       this.setState({
-        show: true,
-        favItinerary: "",
+        favButtonActive: true,
       });
     }
   }
+
+  // Pass itinerary_id and email to backend to save
+  addToFav(id) {
+    this.setState(
+      {
+        show: true,
+        favItinerary: id,
+        favButtonActive: false,
+      },
+      () =>
+        this.props.addFavItinerary(
+          this.state.favItinerary,
+          this.props.user.email
+        )
+    );
+  }
+  // else {
+  //   this.setState({
+  //     show: true,
+  //     favItinerary: "",
+  //     favButtonActive: true,
+  //   });
+  // }
 
   handleClose() {
     this.setState({ show: false });
@@ -83,12 +95,10 @@ class AddFavButton extends Component {
   inactiveFavButton() {
     return (
       <Fragment>
-        {this.props.user.favItinerary.includes(this.props.id) && (
-          <div>
-            <i className="material-icons favInactive"> favorite </i>
-            <p>Added!</p>
-          </div>
-        )}
+        <div>
+          <i className="material-icons favInactive"> favorite </i>
+          <p>Added!</p>
+        </div>
       </Fragment>
     );
   }

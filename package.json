@@ -1,5 +1,5 @@
 {
-  "name": "mytinerary",
+  "name": "mytinerary-backend",
   "version": "1.0.0",
   "description": "My first node project",
   "main": "server.js",
@@ -43,8 +43,6 @@
     "passport-google-oauth20": "^1.0.0",
     "passport-google-plus-token": "^2.1.0",
     "path": "^0.12.7",
-    "react-facebook-login": "^4.1.1",
-    "react-social-login": "^3.4.4",
     "validator": "^10.11.0"
   },
   "devDependencies": {}

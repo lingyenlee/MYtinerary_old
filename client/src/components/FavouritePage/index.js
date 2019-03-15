@@ -10,6 +10,7 @@ class FavouritePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      favButtonActive: true,
       loggedIn: false,
       view: true,
     };

@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import Input from "./UserInput";
 import ErrorMessage from "./ErrorMessage";
 import { NavLink } from "react-router-dom";
-import { login, oauthFacebook } from "../../actions/usersActions";
+import { login } from "../../actions/usersActions";
 import { connect } from "react-redux";
 // import GoogleLogin from "react-google-login";
-import FacebookLogin from "react-facebook-login";
+// import FacebookLogin from "react-facebook-login";
 import PropTypes from "prop-types";
 import validateLoginInput from "./ValidateLogin";
 
@@ -22,7 +22,7 @@ class LoginPage extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     // this.responseGoogle = this.responseGoogle.bind(this);
-    this.responseFacebook = this.responseFacebook.bind(this);
+    // this.responseFacebook = this.responseFacebook.bind(this);
   }
 
   // ------------- google log in ----------------------------------
@@ -38,16 +38,16 @@ class LoginPage extends Component {
   // }
 
   // ------------- facebook log in ----------------------------------
-  async responseFacebook(res) {
-    this.setState({
-      isLoading: true,
-    });
-    //send access Token
-    await this.props.oauthFacebook(res.accessToken);
-    if (!this.props.errorMessage) {
-      this.props.history.push("/");
-    }
-  }
+  // async responseFacebook(res) {
+  //   this.setState({
+  //     isLoading: true,
+  //   });
+  //   //send access Token
+  //   await this.props.oauthFacebook(res.accessToken);
+  //   if (!this.props.errorMessage) {
+  //     this.props.history.push("/");
+  //   }
+  // }
 
   // ------------------- Login form data entry --------------------
   handleInputChange = e => {
@@ -151,13 +151,16 @@ class LoginPage extends Component {
           /> */}
         </div>
         <div className="facebook-login-btn">
-          <FacebookLogin
+          {/* <FacebookLogin
             appId="340272643266868"
             // autoLoad={true}
             fields="name,email,picture"
             // onClick={this.componentClicked}
             callback={this.responseFacebook}
-          />
+            render={renderProps => (
+              <button onClick={renderProps.onClick}>Facebook</button>
+            )}
+          /> */}
         </div>
       </div>
     );
@@ -193,5 +196,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { login, oauthFacebook }
+  { login }
 )(LoginPage);
