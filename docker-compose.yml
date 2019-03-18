@@ -6,7 +6,7 @@ services:
     ports:
       - "27017:27017"
   backend:
-    container_name: docker-mytinerary-backend
+    container_name: backend
     restart: always
     build: .
     image: docker/backend
@@ -22,5 +22,7 @@ services:
     image: docker/frontend
     ports:
       - "3000:3000"
+    links:
+      - backend
     depends_on:
       - backend

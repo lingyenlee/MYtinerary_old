@@ -27,7 +27,7 @@ else {
     key: fs.readFileSync(path.resolve("./ssl/server.key")),
     cert: fs.readFileSync(path.resolve("./ssl/server.crt")),
   };
-  server = https.createServer(certOptions, app);
+  server = http.createServer(app);
 }
 
 // -------------express middleware that read form's input and stores in req.body
