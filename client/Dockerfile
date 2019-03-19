@@ -9,7 +9,7 @@ COPY . /app
 RUN npm install
 
 # Command to run the app when container launches 
-CMD ["npm", "start"]
+CMD npm start
 
 # Make port 5000 available to the world outside this container
 EXPOSE 3000

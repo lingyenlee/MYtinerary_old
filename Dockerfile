@@ -5,14 +5,15 @@ FROM node:10
 WORKDIR /app
 
 # Copy the current directory contents into the container at /app
-COPY package*.json ./
+COPY package.json /app
+COPY package-lock.json /app
 
 RUN npm install
 
 COPY . /app
 
 # Command to run the app when container launches 
-CMD ["npm", "start"]
+CMD npm start
 
 # Make port 5000 available to the world outside this container
 EXPOSE 5000
