@@ -73,7 +73,7 @@ class Itinerary extends Component {
                     <p>Likes: {result.rating}</p>
                     <p>Duration: {result.duration}</p>
                     <p>Cost: {result.cost}</p>
-                    <p>Hashtags: {result.hashtags}</p>
+                    <p>Hashtags: {result.hashtags.join(", ")}</p>
                   </div>
                 </div>
                 {/* ------- add fav and del fav buttons are rendered conditionally ----------- */}

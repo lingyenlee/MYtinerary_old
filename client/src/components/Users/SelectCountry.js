@@ -4,19 +4,20 @@ class SelectCountry extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedCountry: ""
+      selectedCountry: "",
     };
-    this.handleChange = this.handleChange.bind(this);
+    // this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(e) {
-    e.target.name = e.target.value;
-    this.setState({
-      selectedCountry: ""
-    });
-  }
+  // handleChange(e) {
+  //   e.target.name = e.target.value;
+  //   this.setState({
+  //     selectedCountry: "",
+  //   });
+  // }
 
   render() {
+    // console.log(this.state.selectedCountry);
     return (
       <div className="form-group">
         <div>

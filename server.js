@@ -6,7 +6,7 @@ require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
-// const https = require("https");
+const https = require("https");
 const http = require("http");
 //--------initialise app ------------
 const app = express();
@@ -27,7 +27,7 @@ else {
     key: fs.readFileSync(path.resolve("./ssl/server.key")),
     cert: fs.readFileSync(path.resolve("./ssl/server.crt")),
   };
-  server = http.createServer(app);
+  server = https.createServer(certOptions, app);
 }
 
 // -------------express middleware that read form's input and stores in req.body
@@ -60,23 +60,23 @@ mongoose.connect(mongoDB, { useNewUrlParser: true });
 mongoose.set("useCreateIndex", true);
 
 // serve static assets if in production
-// if (process.env.NODE_ENV === 'production') {
-//   // set static folder in the frontend
-//   app.use(express.static(path.join(__dirname, "client/build")));
-
-//   app.get("*", (req, res) => {
-//     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-//   });
-// }
-
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build")); // serve the static react app
-  app.get(/^\/(?!api).*/, (req, res) => {
-    // don't serve api routes to react app
-    res.sendFile(path.join(__dirname, "./client/build/index.html"));
+  // set static folder in the frontend
+  app.use(express.static(path.join(__dirname, "client/build")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
-  console.log("Serving React App...");
 }
+
+// if (process.env.NODE_ENV === "production") {
+//   app.use(express.static("client/build")); // serve the static react app
+//   app.get(/^\/(?!api).*/, (req, res) => {
+//     // don't serve api routes to react app
+//     res.sendFile(path.join(__dirname, "./client/build/index.html"));
+//   });
+//   console.log("Serving React App...");
+// }
 
 //--------- set port --------------------
 const port = process.env.PORT || 5000;
@@ -106,7 +106,7 @@ app.use(passport.session());
 // app.use(
 //   cors({
 //     origin: "https://localhost:3000",
-//     credentials: true
+//     credentials: true,
 //   })
 // );
 

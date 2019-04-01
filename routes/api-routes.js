@@ -26,6 +26,7 @@ const upload = multer({ storage: storage });
 // get cities from mlab
 router.get("/cities", (req, res, next) => {
   City.find()
+    .sort({ city: 1 })
     .then(cities => res.json(cities))
     .catch(err => {
       console.log(err);
