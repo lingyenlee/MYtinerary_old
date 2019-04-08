@@ -6,8 +6,6 @@ services:
     ports:
       - "27017:27017"
   backend:
-    container_name: docker-mytinerary-backend
-    restart: always
     build: .
     image: docker/backend
     ports:
@@ -17,10 +15,11 @@ services:
     depends_on:
       - mongo
   frontend:
-    container_name: docker-mytinerary-frontend
     build: ./client
     image: docker/frontend
     ports:
       - "3000:3000"
+    links:
+      - backend
     depends_on:
       - backend

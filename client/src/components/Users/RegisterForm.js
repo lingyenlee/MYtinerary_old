@@ -45,6 +45,7 @@ class RegisterForm extends Component {
     this.setState({
       user: user,
     });
+    console.log(this.state.user);
   };
 
   // ---------pass data to validation and check if all fields are filled in ---------

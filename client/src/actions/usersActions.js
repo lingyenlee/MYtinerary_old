@@ -45,19 +45,20 @@ export const register = formData => dispatch => {
     );
 };
 
-// export const oauthGoogle = data => {
-//   return async dispatch => {
-//     //data sent is access token
-//     const response = await axios.post("/auth/google", {
-//       access_token: data,
-//     });
-//     dispatch({
-//       type: AUTH_SIGN_UP,
-//       payload: response.data,
-//     });
-//     sessionStorage.setItem("token", response.data.token);
-//   };
-// };
+export const oauthGoogle = data => {
+  return async dispatch => {
+    //data sent is access token
+    const response = await axios.post("/auth/google", {
+      access_token: data,
+    });
+    dispatch({
+      type: AUTH_SIGN_UP,
+      payload: response.data,
+    });
+    sessionStorage.setItem("token", response.data.token);
+  };
+};
+
 
 export const oauthFacebook = data => {
   console.log("facebook action", data);
