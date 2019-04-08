@@ -5,7 +5,7 @@ export const getActivity = id => dispatch => {
   axios.get(`/api/activities/${id}`).then(response =>
     dispatch({
       type: GET_ACTIVITY,
-      payload: response.data
+      payload: response.data,
     })
   );
 };

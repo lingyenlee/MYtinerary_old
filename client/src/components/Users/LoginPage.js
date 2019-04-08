@@ -156,7 +156,7 @@ class LoginPage extends Component {
             callback={this.responseFacebook}
             render={renderProps => (
               <button onClick={renderProps.onClick}>
-                This is my custom FB button
+                Facebook Login
               </button>
             )}
           />

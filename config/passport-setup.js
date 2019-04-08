@@ -60,7 +60,7 @@ passport.use(
       //----options for facebook strategy---
       clientID: process.env.FACEBOOK_CLIENT_ID,
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
-    },
+    }, 
     (accessToken, refreshToken, profile, done) => {
       User.findOne({ email: profile.emails[0].value }).then(existingUser => {
         if (existingUser) {

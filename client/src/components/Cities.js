@@ -34,7 +34,7 @@ class Cities extends Component {
         .includes(this.state.search.toLowerCase());
     });
     return (
-      <Fragment>
+      <div className="Cities">
         <div className="cities-heading">
           <h4>City Itineraries</h4>
           <h5>Please click on a city to see the itineraries avaliable</h5>
@@ -74,7 +74,7 @@ class Cities extends Component {
             );
           })}
         </div>
-      </Fragment>
+      </div>
     );
   }
 }

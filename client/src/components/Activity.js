@@ -1,10 +1,11 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getActivity } from "../actions/activityActions";
 import PropTypes from "prop-types";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
+// import Carousel from "react-bootstrap/Carousel";
+// import "slick-carousel/slick/slick.css";
+// import "slick-carousel/slick/slick-theme.css";
+// import Slider from "react-slick";
 import CommentForm from "./CommentForm";
 
 class Activity extends Component {
@@ -14,28 +15,46 @@ class Activity extends Component {
   }
 
   render() {
-    const settings = {
-      dots: false,
-      infinite: true,
-      speed: 500,
-      slidesToShow: 2,
-      slidesToScroll: 1,
-    };
+    // const settings = {
+    //   dots: false,
+    //   infinite: true,
+    //   speed: 500,
+    //   slidesToShow: 2,
+    //   slidesToScroll: 1,
+    // };
+    console.log(this.props.activities);
 
     return (
       <div className="activity-container">
-        <Slider {...settings}>
+        {/* {this.props.activities.map(result => {
+          return (
+            <Carousel>
+              <Carousel.Item>
+                <img
+                  className="d-block w-100"
+                  src={result.activityImage}
+                  alt="slide"
+                />
+                <Carousel.Caption>
+                  <p>{result.activityCaption}</p>
+                </Carousel.Caption>
+              </Carousel.Item>
+            </Carousel>
+          );
+        })} */}
+
+        {/* <Slider {...settings}>
           {this.props.activities.map(result => {
             return (
               <Fragment key={result._id}>
                 <div className="activity-images">
-                  <img src={result.activityImage} alt="" />
-                  <figcaption>{result.activityCaption}</figcaption>
+                  <img src= alt="" />
+                  <figcaption></figcaption>
                 </div>
               </Fragment>
             );
           })}
-        </Slider>
+        </Slider>  */}
         <CommentForm itinerary_id={this.props.id} />
       </div>
     );

@@ -24,6 +24,8 @@
     "react-scripts": "^2.1.8",
     "react-select": "^2.3.0",
     "react-slick": "^0.23.2",
+    "react-test-renderer": "^16.8.6",
+    "reactstrap": "^7.1.0",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.7",
     "redux-thunk": "^2.3.0",
@@ -44,6 +46,8 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.11.2",
     "jquery": "^3.3.1"
   }
 }
